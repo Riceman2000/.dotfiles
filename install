@@ -1,0 +1,22 @@
+#!/usr/bin/env zsh
+# Make sure zsh is installed on target system
+
+pushd ~/.dotfiles
+for item in *
+do
+    if [ -d $item ]; then
+        echo "Stowing directory --> " $item
+        stow -D $item
+        stow $item
+    else
+        echo "Ignoring file --> " $item
+    fi
+done
+popd
+
+echo "Dotfiles deployed. Do you want to restart your shell to see changes? (y/n)"
+read confirm
+if [ "$confirm" = "y" ]; then
+    echo "Restarting..."
+    exec ${SHELL}
+fi

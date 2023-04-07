@@ -1,0 +1,21 @@
+#!/usr/bin/env zsh
+# Make sure zsh is installed on target system
+
+pushd ~/.dotfiles
+for item in *
+do
+    if [ -d $item ]; then
+        echo "Unstowing --> " $item
+        stow -D $item
+    else
+        echo "Ignoring file --> " $item
+    fi
+done
+popd
+
+echo "Dotfiles cleaned. Do you want to restart your shell to see changes? (y/n)"
+read confirm
+if [ "$confirm" = "y" ]; then
+    echo "Restarting..."
+    exec ${SHELL}
+fi
