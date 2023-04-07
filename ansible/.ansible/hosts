@@ -1,0 +1,14 @@
+[special]
+# localhost
+
+[local_apt]
+pi01
+dell01
+
+[remote_apt]
+linode
+
+[proxmox_apt]
+# dell02 # Proxmox hypervisor does not play well over ssh
+# mcserv
+mediapm
