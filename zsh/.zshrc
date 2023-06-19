@@ -1,6 +1,4 @@
 # -=-=-=-=-=-=-=-=-=-=-=-=-=- Misc -=-=-=-=-=-=-=-=-=-=-=-=-=-
-# sccache to speed up Rust build times
-export RUSTC_WRAPPER=sccache
 
 # -=-=-=-=-=-=-=-=-=-=-=-=-=- Aliases -=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Rust stuff
@@ -11,7 +9,6 @@ alias cat="bat"
 alias ai="aichat"
 # General
 alias c="clear"
-
 
 # -=-=-=-=-=-=-=-=-=-=-=-=-=- Suffixes -=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Rust
