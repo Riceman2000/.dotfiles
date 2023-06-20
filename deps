@@ -12,18 +12,16 @@ elif command -v apt >/dev/null 2>&1; then
 fi
 
 # Rust installation - from https://rustup.rs/
-read -p "?Install rustup? (y/n)? " choice
-if [[ $choice =~ ^[Yy]$ ]]; then
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-fi
-
 if command -v cargo >/dev/null 2>&1; then
   read -p "?Install cargo crates? This could take awhile (y/n)? " choice
   if [[ $choice =~ ^[Yy]$ ]]; then
     cargo install $CRATES
   fi
 else
-  echo "cargo command is not present (you may need to restart your shell), cannot install crates"
+  read -p "?Install rustup? (y/n)? " choice
+  if [[ $choice =~ ^[Yy]$ ]]; then
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+  fi
 fi
 
 if [[ $SHELL != */zsh ]]; then
