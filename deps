@@ -25,6 +25,18 @@ else
   fi
 fi
 
+# Install neovim - can't use apt because it will be old
+# App image extract by default becasue literally nothing has FUSE >:(
+pushd ~
+wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage --output-document nvim.appimage
+chmod u+x nvim.appimage
+./nvim.appimage --appimage-extract
+./squashfs-root/AppRun --version
+sudo mv squashfs-root /
+sudo ln -s /squashfs-root/AppRun /usr/bin/nvim
+sudo ln -s /squashfs-root/AppRun /usr/bin/vim
+popd
+
 # AstroNvim install from - https://github.com/AstroNvim/AstroNvim
 read -p "?Install AstroNvim config? (y/n)? " choice
 if [[ $choice =~ ^[Yy]$ ]]; then
