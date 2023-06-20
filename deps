@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PACKAGES="zsh curl neovim"
+PACKAGES="zsh curl neovim pkg-config libssl-dev "
 
 CRATES="aichat bat du-dust exa gitui ripgrep cargo-update"
 
