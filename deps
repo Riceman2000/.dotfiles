@@ -1,13 +1,17 @@
 #!/bin/bash
 
-PACKAGES="git zsh curl neovim pkg-config libssl-dev stow"
+PACKAGES="git zsh curl neovim pkg-config libssl-dev stow build-essential"
 
 CRATES="aichat bat du-dust exa gitui ripgrep cargo-update"
 
 
 if command -v brew >/dev/null 2>&1; then
+  brew update
+  brew upgrade
   brew install $PACKAGES
 elif command -v apt >/dev/null 2>&1; then
+  sudo apt update
+  sudo apt upgrade -y
   sudo apt install -y $PACKAGES
 fi
 
