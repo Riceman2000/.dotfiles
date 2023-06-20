@@ -12,14 +12,14 @@ elif command -v apt >/dev/null 2>&1; then
 fi
 
 # Rust installation - from https://rustup.rs/
-read "?Install rustup? (y/n)? " choice
-if [[ "$choice" == "y" ]]; then
+read -p "?Install rustup? (y/n)? " choice
+if [[ $choice =~ ^[Yy]$ ]]; then
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 fi
 
 if command -v cargo >/dev/null 2>&1; then
-  read "?Install cargo crates? This could take awhile (y/n)? " choice
-  if [[ "$choice" == "y" ]]; then
+  read -p "?Install cargo crates? This could take awhile (y/n)? " choice
+  if [[ $choice =~ ^[Yy]$ ]]; then
     cargo install $CRATES
   fi
 else
@@ -27,8 +27,8 @@ else
 fi
 
 if [[ $SHELL != */zsh ]]; then
-  read "?Set zsh as default shell (y/n)? " choice
-  if [[ "$choice" == "y" ]]; then
+  read -p "?Set zsh as default shell (y/n)? " choice
+  if [[ $choice =~ ^[Yy]$ ]]; then
     chsh -s "$(command -v zsh)"
     echo "You may need a terminal/system reboot for this change to stick."
   fi
