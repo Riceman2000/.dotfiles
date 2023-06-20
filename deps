@@ -2,7 +2,7 @@
 
 PACKAGES="zsh curl neovim"
 
-CRATES="aichat bat du-dust exa gitui ripgrep cargo-update cargo-binstall"
+CRATES="aichat bat du-dust exa gitui ripgrep cargo-update"
 
 
 if command -v brew >/dev/null 2>&1; then
@@ -15,7 +15,8 @@ fi
 if command -v cargo >/dev/null 2>&1; then
   read -p "?Install cargo crates? This could take awhile (y/n)? " choice
   if [[ $choice =~ ^[Yy]$ ]]; then
-    cargo install $CRATES
+    cargo install cargo-binstall
+    cargo binstall $CRATES
   fi
 else
   read -p "?Install rustup? (y/n)? " choice
