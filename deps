@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PACKAGES="zsh curl neovim pkg-config libssl-dev "
+PACKAGES="git zsh curl neovim pkg-config libssl-dev stow"
 
 CRATES="aichat bat du-dust exa gitui ripgrep cargo-update"
 
@@ -23,6 +23,14 @@ else
   if [[ $choice =~ ^[Yy]$ ]]; then
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
   fi
+fi
+
+# AstroNvim install from - https://github.com/AstroNvim/AstroNvim
+read -p "?Install AstroNvim config? (y/n)? " choice
+if [[ $choice =~ ^[Yy]$ ]]; then
+  mv ~/.config/nvim ~/.config/nvim.bak
+  mv ~/.local/share/nvim ~/.local/share/nvim.bak
+  git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim
 fi
 
 if [[ $SHELL != */zsh ]]; then
