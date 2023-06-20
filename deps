@@ -1,0 +1,39 @@
+#!/bin/bash
+
+PACKAGES="zsh curl neovim"
+
+CRATES="aichat bat du-dust exa gitui ripgrep cargo-update cargo-binstall"
+
+
+if command -v brew >/dev/null 2>&1; then
+  brew install $PACKAGES
+elif command -v apt >/dev/null 2>&1; then
+  sudo apt install -y $PACKAGES
+fi
+
+# Rust installation - from https://rustup.rs/
+read "?Install rustup? (y/n)? " choice
+if [[ "$choice" == "y" ]]; then
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+fi
+
+if command -v cargo >/dev/null 2>&1; then
+  read "?Install cargo crates? This could take awhile (y/n)? " choice
+  if [[ "$choice" == "y" ]]; then
+    cargo install $CRATES
+  fi
+else
+  echo "cargo command is not present (you may need to restart your shell), cannot install crates"
+fi
+
+if [[ $SHELL != */zsh ]]; then
+  read "?Set zsh as default shell (y/n)? " choice
+  if [[ "$choice" == "y" ]]; then
+    chsh -s "$(command -v zsh)"
+    echo "You may need a terminal/system reboot for this change to stick."
+  fi
+else
+  echo "zsh is already default, nothing to do here..."
+fi
+
+echo "Done!"
