@@ -9,9 +9,7 @@ PIP_PACKAGES="virtualenv"
 
 CRATES="aichat bat du-dust exa gitui ripgrep cargo-update"
 
-echo $PACKAGES
-return 0
-
+echo "Packages to install: $PACKAGES"
 read -p "?Install apt/brew packages? (y/n)? " choice
 if [[ $choice =~ ^[Yy]$ ]]; then
   if command -v brew >/dev/null 2>&1; then
@@ -27,7 +25,8 @@ fi
 
 # Rust installation - from https://rustup.rs/
 if command -v cargo >/dev/null 2>&1; then
-  read -p "?Install cargo crates? This could take awhile (y/n)? " choice
+  echo "Crates to install: cargo-binstall $CRATES"
+  read -p "?Install cargo crates? Cargo-binstall will be compiled then used to install the rest (y/n)? " choice
   if [[ $choice =~ ^[Yy]$ ]]; then
     cargo install cargo-binstall
     cargo binstall --no-confirm $CRATES
@@ -38,6 +37,12 @@ else
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
     echo "You will need to restart your shell then run this script again to install Cargo crates..."
   fi
+fi
+
+echo "Pip packages to install: $PIP_PACKAGES"
+read -p "?Install Pip packages? (y/n)? " choice
+if [[ $choice =~ ^[Yy]$ ]]; then
+  python3 -m pip install $PIP_PACKAGES
 fi
 
 # Install neovim - can't use apt because it will be old
