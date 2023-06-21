@@ -1,18 +1,28 @@
 #!/bin/bash
 
-PACKAGES="git zsh curl neovim pkg-config libssl-dev stow build-essential"
+PACKAGES="git zsh tmux stow       `#personal utils`               \
+  curl wget pkg-config libssl-dev `#needed to build other tools`  \
+  build-essential unzip npm                                       \
+  python3-pip python3-venv gcc"   `#commonly used build tools`
+
+PIP_PACKAGES="virtualenv"
 
 CRATES="aichat bat du-dust exa gitui ripgrep cargo-update"
 
+echo $PACKAGES
+return 0
 
-if command -v brew >/dev/null 2>&1; then
-  brew update
-  brew upgrade
-  brew install $PACKAGES
-elif command -v apt >/dev/null 2>&1; then
-  sudo apt update
-  sudo apt upgrade -y
-  sudo apt install -y $PACKAGES
+read -p "?Install apt/brew packages? (y/n)? " choice
+if [[ $choice =~ ^[Yy]$ ]]; then
+  if command -v brew >/dev/null 2>&1; then
+    brew update
+    brew upgrade
+    brew install $PACKAGES
+  elif command -v apt >/dev/null 2>&1; then
+    sudo apt update
+    sudo apt upgrade -y
+    sudo apt install -y $PACKAGES
+  fi
 fi
 
 # Rust installation - from https://rustup.rs/
@@ -20,29 +30,33 @@ if command -v cargo >/dev/null 2>&1; then
   read -p "?Install cargo crates? This could take awhile (y/n)? " choice
   if [[ $choice =~ ^[Yy]$ ]]; then
     cargo install cargo-binstall
-    cargo binstall $CRATES
+    cargo binstall --no-confirm $CRATES
   fi
 else
   read -p "?Install rustup? (y/n)? " choice
   if [[ $choice =~ ^[Yy]$ ]]; then
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    echo "You will need to restart your shell then run this script again to install Cargo crates..."
   fi
 fi
 
 # Install neovim - can't use apt because it will be old
 # App image extract by default becasue literally nothing has FUSE >:(
-pushd ~
-wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage --output-document nvim.appimage
-chmod u+x nvim.appimage
-./nvim.appimage --appimage-extract
-./squashfs-root/AppRun --version
-sudo mv squashfs-root /
-sudo ln -s /squashfs-root/AppRun /usr/bin/nvim
-sudo ln -s /squashfs-root/AppRun /usr/bin/vim
-popd
+read -p "?Install neovim from appimage? (y/n)? " choice
+if [[ $choice =~ ^[Yy]$ ]]; then
+  pushd ~
+  wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage --output-document nvim.appimage
+  chmod u+x nvim.appimage
+  ./nvim.appimage --appimage-extract
+  ./squashfs-root/AppRun --version
+  sudo mv squashfs-root /
+  sudo ln -s /squashfs-root/AppRun /usr/bin/nvim
+  sudo ln -s /squashfs-root/AppRun /usr/bin/vim
+  popd
+fi
 
 # AstroNvim install from - https://github.com/AstroNvim/AstroNvim
-read -p "?Install AstroNvim config? (y/n)? " choice
+read -p "?Install AstroNvim config from git (not personal tweaks)? (y/n)? " choice
 if [[ $choice =~ ^[Yy]$ ]]; then
   mv ~/.config/nvim ~/.config/nvim.bak
   mv ~/.local/share/nvim ~/.local/share/nvim.bak
