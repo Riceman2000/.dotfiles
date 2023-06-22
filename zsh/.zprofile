@@ -6,9 +6,17 @@ fi
 VIM="nvim"
 
 export GIT_EDITOR=$VIM
+export EDITOR=$VIM
 export DOTFILES=$HOME/.dotfiles
 
-# Setting PATH for Python 3.10
-# The original version is saved in .zprofile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/3.10/bin:${PATH}"
-export PATH
+# Add things to PATH, check before doing so
+PATHS_TO_ADD=("$HOME/.cargo/bin" \
+  "$HOME/.local/share/bob/nvim-bin")
+
+for path_to_add in "${PATHS_TO_ADD[@]}"
+do
+  if test -d $path_to_add; then
+    real_path=$(realpath "$path_to_add")
+    [[ ":$PATH:" != *":$real_path:"* ]] && PATH="$real_path:${PATH}"
+  fi
+done
