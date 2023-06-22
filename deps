@@ -1,13 +1,13 @@
 #!/bin/bash
 
-PACKAGES="git zsh tmux stow       `#personal utils`               \
-  curl wget pkg-config libssl-dev `#needed to build other tools`  \
-  build-essential unzip npm                                       \
-  python3-pip python3-venv gcc"   `#commonly used build tools`
+PACKAGES="git zsh tmux stow `#personal utils`\
+  curl wget pkg-config libssl-dev `#needed to build other tools`\
+  build-essential unzip npm \
+  python3-pip python3-venv gcc" `#commonly used build tools`
 
 PIP_PACKAGES="virtualenv"
 
-CRATES="aichat bat du-dust exa gitui ripgrep cargo-update"
+CRATES="aichat bat du-dust exa gitui ripgrep cargo-update bob-nvim zellij"
 
 echo "Packages to install: $PACKAGES"
 read -p "?Install apt/brew packages? (y/n)? " choice
@@ -45,23 +45,14 @@ if [[ $choice =~ ^[Yy]$ ]]; then
   python3 -m pip install $PIP_PACKAGES
 fi
 
-# Install neovim - can't use apt because it will be old
-# App image extract by default becasue literally nothing has FUSE >:(
-read -p "?Install neovim from appimage? (y/n)? " choice
+# Neovim from apt is out of date, bob can pull the latest versions
+read -p "?Install neovim using bob? (y/n)? " choice
 if [[ $choice =~ ^[Yy]$ ]]; then
-  pushd ~
-  wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage --output-document nvim.appimage
-  chmod u+x nvim.appimage
-  ./nvim.appimage --appimage-extract
-  ./squashfs-root/AppRun --version
-  sudo mv squashfs-root /
-  sudo ln -s /squashfs-root/AppRun /usr/bin/nvim
-  sudo ln -s /squashfs-root/AppRun /usr/bin/vim
-  popd
+  bob use nightly
 fi
 
 # AstroNvim install from - https://github.com/AstroNvim/AstroNvim
-read -p "?Install AstroNvim config from git (not personal tweaks)? (y/n)? " choice
+read -p "?Install AstroNvim config from git? (y/n)? " choice
 if [[ $choice =~ ^[Yy]$ ]]; then
   mv ~/.config/nvim ~/.config/nvim.bak
   mv ~/.local/share/nvim ~/.local/share/nvim.bak
