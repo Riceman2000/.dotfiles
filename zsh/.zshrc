@@ -27,7 +27,7 @@ autoload -Uz vcs_info
 precmd() { vcs_info }
 zstyle ':vcs_info:git:*' formats '%b '
 setopt PROMPT_SUBST
-PROMPT='%F{green}%*%f %F{blue}%~%f %F{red}${vcs_info_msg_0_}%f$ '
+PROMPT='%F{yellow}%*%f %F{cyan}%~%f %F{red}%B${vcs_info_msg_0_}%f%b$ '
 
 # -=-=-=-=-=-=-=-=-=-=-=-=-=- Autocomplete for Zellij -=-=-=-=-=-=-=-=-=-=-=-=-=-
 if command -v zellij >/dev/null 2>&1; then
