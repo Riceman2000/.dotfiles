@@ -1,4 +1,3 @@
--- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
   -- NOTE: Remember that lua is a real programming language, and as such it is possible
@@ -44,14 +43,12 @@ local on_attach = function(_, bufnr)
 end
 
 -- Enable the following language servers
---  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
---
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
   clangd = {},
   pyright = {},
-  -- NOTE: rust_analyzer built by rust-tools
+  rust_analyzer = {},
 
   lua_ls = {
     Lua = {
@@ -84,3 +81,13 @@ mason_lspconfig.setup_handlers {
     }
   end,
 }
+
+-- [[ Configure rust-tools ]]
+-- https://github.com/simrat39/rust-tools.nvim/issues/328
+local rt = require('rust-tools')
+rt.setup({
+  server = {
+    on_attach = on_attach,
+    capabilities = capabilities
+  }
+})

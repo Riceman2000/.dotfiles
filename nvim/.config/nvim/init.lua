@@ -96,9 +96,11 @@ require('lazy').setup({
       },
       on_attach = function(bufnr)
         vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk,
-          { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
-        vim.keymap.set('n', '<leader>gn', require('gitsigns').next_hunk, { buffer = bufnr, desc = '[G]o to [N]ext Hunk' })
-        vim.keymap.set('n', '<leader>ph', require('gitsigns').preview_hunk, { buffer = bufnr, desc = '[P]review [H]unk' })
+          { buffer = bufnr, desc = 'Git: [G]o to [P]revious Hunk' })
+        vim.keymap.set('n', '<leader>gn', require('gitsigns').next_hunk,
+          { buffer = bufnr, desc = 'Git: [G]o to [N]ext Hunk' })
+        vim.keymap.set('n', '<leader>ph', require('gitsigns').preview_hunk,
+          { buffer = bufnr, desc = 'Git: [P]review [H]unk' })
       end,
     },
   },
@@ -255,21 +257,6 @@ cmp.setup {
     { name = 'luasnip' },
   },
 }
-
--- [[ Configure rust-tools ]]
--- NOTE: This should be done after lsp config
-require('rust-tools').setup({
-  server = {
-    on_attach = function(_, bufnr)
-      -- Hover actions
-      vim.keymap.set('n', '<leader>lh', require('rust-tools').hover_actions.hover_actions,
-        { buffer = bufnr, desc = "rust-tools: [L]SP [H]over Action" })
-      -- Code action
-      vim.keymap.set('n', '<leader>la', require('rust-tools').code_action_group.code_action_group,
-        { buffer = bufnr, desc = "rust-tools: [L]SP Code [A]ction" })
-    end
-  }
-})
 
 -- [[ Basic Keymaps ]]
 -- NOTE: I like to keep these at the bottom so they override anything else
