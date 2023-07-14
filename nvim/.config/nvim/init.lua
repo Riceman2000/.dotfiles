@@ -134,6 +134,7 @@ require('lazy').setup({
     'lukas-reineke/indent-blankline.nvim',
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help indent_blankline.txt`
+    event = "BufAdd",
     opts = {
       char = '┊',
       show_trailing_blankline_indent = false,
@@ -181,7 +182,9 @@ require('lazy').setup({
 
   -- other plugins, see lua/plugins
   require 'plugins.autoformat',
-  require 'plugins.debug'
+  require 'plugins.dashboard',
+  require 'plugins.debug',
+
 
 }, {})
 
