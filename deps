@@ -1,13 +1,15 @@
 #!/bin/bash
 
-PACKAGES="git zsh tmux stow `#personal utils`\
-  curl wget pkg-config libssl-dev `#needed to build other tools`\
-  build-essential unzip npm \
-  python3-pip python3-venv gcc" `#commonly used build tools`
+# Things I like to have
+PACKAGES="git zsh tmux stow"                 
+# Stuff that other tools need to build
+PACKAGES+=" curl wget pkg-config libssl-dev build-essential unzip make"
+# Other envs
+PACKAGES+=" npm python3-pip python3-venv gcc"
 
 PIP_PACKAGES="virtualenv"
 
-CRATES="aichat bat du-dust exa gitui ripgrep cargo-update bob-nvim zellij"
+CRATES="aichat bat du-dust exa gitui ripgrep cargo-update bob-nvim zellij tealdeer"
 
 echo "Packages to install: $PACKAGES"
 read -p "?Install apt/brew packages? (y/n)? " choice
@@ -49,14 +51,6 @@ fi
 read -p "?Install neovim using bob? (y/n)? " choice
 if [[ $choice =~ ^[Yy]$ ]]; then
   bob use nightly
-fi
-
-# AstroNvim install from - https://github.com/AstroNvim/AstroNvim
-read -p "?Install AstroNvim config from git? (y/n)? " choice
-if [[ $choice =~ ^[Yy]$ ]]; then
-  mv ~/.config/nvim ~/.config/nvim.bak
-  mv ~/.local/share/nvim ~/.local/share/nvim.bak
-  git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim
 fi
 
 if [[ $SHELL != */zsh ]]; then

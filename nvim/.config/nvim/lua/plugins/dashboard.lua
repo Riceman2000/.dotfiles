@@ -26,10 +26,10 @@ return {
           {
             icon = '',
             icon_hl = '@variable',
-            desc = 'Git',
+            desc = 'Repo',
             group = 'Label',
             action = 'Telescope git_files',
-            key = 'g',
+            key = 'r',
           },
           {
             icon = '',
@@ -37,7 +37,7 @@ return {
             desc = 'Grep',
             group = 'Number',
             action = 'Telescope live_grep',
-            key = 'f',
+            key = 'g',
           },
           {
             icon = '',
