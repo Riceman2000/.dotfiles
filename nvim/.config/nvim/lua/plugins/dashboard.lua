@@ -48,7 +48,7 @@ return {
             key = 'o',
           },
         },
-        footer = { [[健全なる魂は、健全なる精神と、健全なる肉体に宿る.]] },
+        footer = { [[Kenzen-naru ⌠tamashii⌡ wa, Kenzen-naru seishin tou, Kenzen-naru nikutai ni yadoru.]] },
       },
 
       hide = {
