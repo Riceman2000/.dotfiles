@@ -200,6 +200,7 @@ require('lazy').setup({
   -- other plugins, see lua/plugins
   require 'plugins.autoformat',
   require 'plugins.dashboard',
+  require 'plugins.autopair',
   require 'plugins.debug',
 
 
