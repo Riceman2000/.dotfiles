@@ -187,20 +187,11 @@ require('lazy').setup({
     }
   },
 
-  -- help with managing cargo.toml files
-  {
-    'saecki/crates.nvim',
-    event = { "BufRead Cargo.toml" },
-    requires = { { 'nvim-lua/plenary.nvim' } },
-    config = function()
-      require('crates').setup()
-    end,
-  },
-
   -- other plugins, see lua/plugins
   require 'plugins.autoformat',
   require 'plugins.dashboard',
   require 'plugins.autopair',
+  require 'plugins.crates',
   require 'plugins.debug',
 
 
