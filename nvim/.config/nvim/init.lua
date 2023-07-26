@@ -115,8 +115,8 @@ require('lazy').setup({
     end,
   },
 
+  -- Set lualine as statusline
   {
-    -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
     -- See `:help lualine.txt`
     opts = {
@@ -142,10 +142,17 @@ require('lazy').setup({
   },
 
   -- To comment visual regions/lines
-  { 'numToStr/Comment.nvim',         opts = {} },
+  {
+    'numToStr/Comment.nvim',
+    opts = {}
+  },
 
   -- Fuzzy Finder (files, lsp, etc)
-  { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
+  {
+    'nvim-telescope/telescope.nvim',
+    branch = '0.1.x',
+    dependencies = { 'nvim-lua/plenary.nvim' }
+  },
 
   -- Fuzzy Finder Algorithm which requires local dependencies to be built.
   -- Only load if `make` is available. Make sure you have the system
@@ -160,8 +167,8 @@ require('lazy').setup({
     end,
   },
 
+  -- Highlight, edit, and navigate code
   {
-    -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
@@ -178,6 +185,16 @@ require('lazy').setup({
       'nvim-lua/plenary.nvim',
       'mfussenegger/nvim-dap'
     }
+  },
+
+  -- help with managing cargo.toml files
+  {
+    'saecki/crates.nvim',
+    event = { "BufRead Cargo.toml" },
+    requires = { { 'nvim-lua/plenary.nvim' } },
+    config = function()
+      require('crates').setup()
+    end,
   },
 
   -- other plugins, see lua/plugins
@@ -258,6 +275,7 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    { name = 'crates' },
   },
 }
 
