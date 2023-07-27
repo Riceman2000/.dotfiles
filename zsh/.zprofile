@@ -11,7 +11,8 @@ export DOTFILES=$HOME/.dotfiles
 
 # Add things to PATH, check before doing so
 PATHS_TO_ADD=("$HOME/.cargo/bin" \
-  "$HOME/.local/share/bob/nvim-bin")
+  "$HOME/.local/share/bob/nvim-bin" \
+  "$HOME/.local/bin")
 
 for path_to_add in "${PATHS_TO_ADD[@]}"
 do
