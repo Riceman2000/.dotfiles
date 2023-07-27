@@ -71,7 +71,7 @@
       "KC_COMM",
       "KC_DOT",
       "RCTL_T(KC_SLSH)",
-      "RSFT(KC_RBRC)",
+      "RSFT_T(KC_RBRC)",
       "RALT_T(KC_DEL)",
       "KC_UP",
       "KC_DOWN",
