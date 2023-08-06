@@ -41,6 +41,7 @@ if (( $+commands[zr] )) && [[ ! -f $ZR_FILE ]] || [[ ~/.zshrc -nt $ZR_FILE ]]; t
   zr \
     zsh-users/zsh-autosuggestions \
     agkozak/agkozak-zsh-prompt \
+    zsh-users/zsh-syntax-highlighting \
     > $ZR_FILE
 fi
 
