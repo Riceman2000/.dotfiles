@@ -1,11 +1,3 @@
-# -=-=-=-=-=-=-=-=-=-=-=-=-=- Instant Prompt from p10k -=-=-=-=-=-=-=-=-=-=-=-=-=-
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # -=-=-=-=-=-=-=-=-=-=-=-=-=- Aliases -=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Rust stuff
 alias ls="exa"
@@ -17,41 +9,45 @@ alias ai="aichat"
 alias fv="fzf --bind 'enter:become(nvim {})'"
 # General
 alias c="clear"
-# Backups
-alias ls_="ls"
-alias du_="du"
-alias cat_="cat"
+
+# -=-=-=-=-=-=-=-=-=-=-=-=-=- fzf (fuzzy finder) -=-=-=-=-=-=-=-=-=-=-=-=-=-
+export FZF_DEFAULT_COMMAND="fd --type file --hidden --follow --exclude .git --color=always"
+export FZF_DEFAULT_OPTS="--ansi"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # -=-=-=-=-=-=-=-=-=-=-=-=-=- Suffixes -=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Rust
 alias -s {rs,toml,lock}=nvim
 #C/C++
-alias -s {c,cpp,cxx,cc}=nvim
+alias -s {c,cpp,cxx,cc,h,hh,hpp}=nvim
 #Text
-alias -s {txt,md,log}=nvim
+alias -s {txt,md,MD,log}=nvim
 
-# -=-=-=-=-=-=-=-=-=-=-=-=-=- Backup prompt -=-=-=-=-=-=-=-=-=-=-=-=-=-
-# This will only be used if p10k isnt loaded properly
+# -=-=-=-=-=-=-=-=-=-=-=-=-=- Backup Prompt -=-=-=-=-=-=-=-=-=-=-=-=-=-
+# This prompt will only load if agkozak doesnt load properly
 autoload -Uz vcs_info
 precmd() { vcs_info }
 zstyle ':vcs_info:git:*' formats '%b '
 setopt PROMPT_SUBST
-PROMPT='%F{yellow}%*%f %F{cyan}%~%f %F{red}%B${vcs_info_msg_0_}%f%b$ '
+PROMPT='%F{yellow}%m::%*%f %F{cyan}%~%f %F{red}%B${vcs_info_msg_0_}%f%b$ '
+
+# -=-=-=-=-=-=-=-=-=-=-=-=-=- Agkozak Prompt -=-=-=-=-=-=-=-=-=-=-=-=-=-
+AGKOZAK_MULTILINE=0
 
 # -=-=-=-=-=-=-=-=-=-=-=-=-=- zr plugin manager -=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Generate new zsh file from zr if it does not exist or if ~/.zshrc has been changed
 ZR_FILE=$HOME"/.zr_zsh"
-if [[ ! -f $ZR_FILE ]] || [[ ~/.zshrc -nt $ZR_FILE ]]; then
+if (( $+commands[zr] )) && [[ ! -f $ZR_FILE ]] || [[ ~/.zshrc -nt $ZR_FILE ]]; then
   zr \
     zsh-users/zsh-autosuggestions \
-    romkatv/powerlevel10k.git/powerlevel10k.zsh-theme \
+    agkozak/agkozak-zsh-prompt \
     > $ZR_FILE
 fi
-source $ZR_FILE
 
+if [[ -f $ZR_FILE ]]; then
+  source $ZR_FILE
+else
+  echo "ZR plugin manager not active"
+fi
 # -=-=-=-=-=-=-=-=-=-=-=-=-=- Load auto-complete -=-=-=-=-=-=-=-=-=-=-=-=-=-
 autoload -Uz compinit && compinit
-
-# -=-=-=-=-=-=-=-=-=-=-=-=-=- Load p10k prompt -=-=-=-=-=-=-=-=-=-=-=-=-=-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
