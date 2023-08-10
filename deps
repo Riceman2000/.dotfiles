@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Things I like to have
-PACKAGES="git zsh tmux stow fzf fd"                 
+PACKAGES="git zsh tmux stow"
 # Stuff that other tools need to build
 PACKAGES+=" curl wget pkg-config libssl-dev build-essential unzip make"
 # Other envs
@@ -9,7 +9,7 @@ PACKAGES+=" npm python3-pip python3-venv gcc"
 
 PIP_PACKAGES="virtualenv"
 
-CRATES="aichat bat du-dust exa gitui ripgrep cargo-update bob-nvim zellij tealdeer zr"
+CRATES="aichat bat du-dust exa gitui ripgrep cargo-update bob-nvim zellij tealdeer zr fd-find skim"
 
 echo "Packages to install: $PACKAGES"
 read -p "?Install apt/brew packages? (y/n)? " choice

@@ -5,15 +5,16 @@ alias ll="exa -lha"
 alias du="dust -d=2"
 alias cat="bat"
 alias ai="aichat"
-# fzf
-alias fv="fzf --bind 'enter:become(nvim {})'"
+# sk
+alias rsk="sk -i -c 'rg --hidden --color=always --line-number "{}"' --preview '~/scripts/preview.sh {}'"
+alias vsk="sk --bind 'enter:execute(nvim {})+abort' || true"
+alias bsk="sk --bind 'enter:execute(bat {})+abort' || true"
 # General
 alias c="clear"
 
-# -=-=-=-=-=-=-=-=-=-=-=-=-=- fzf (fuzzy finder) -=-=-=-=-=-=-=-=-=-=-=-=-=-
-export FZF_DEFAULT_COMMAND="fd --type file --hidden --follow --exclude .git --color=always"
-export FZF_DEFAULT_OPTS="--ansi"
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+# -=-=-=-=-=-=-=-=-=-=-=-=-=- skim (fuzzy finder) -=-=-=-=-=-=-=-=-=-=-=-=-=-
+export SKIM_DEFAULT_COMMAND="fd --type file --hidden --follow --exclude .git --color=always"
+export SKIM_DEFAULT_OPTIONS="--ansi"
 
 # -=-=-=-=-=-=-=-=-=-=-=-=-=- Suffixes -=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Rust
