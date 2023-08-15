@@ -2,7 +2,8 @@
 # Rust stuff
 alias ls="exa"
 alias ll="exa -lha"
-alias du="dust -d=2"
+alias du="dust"
+alias du1="dust -d=1"
 alias cat="bat"
 alias ai="aichat"
 # sk
