@@ -1,0 +1,25 @@
+#!/bin/bash
+
+current_dir=${PWD##*/}
+current_dir=${current_dir:-/}
+if [[ $current_dir != "repos" ]]; then
+    echo Execute this in a 'repos' directory
+    exit 1
+fi
+
+if command -v cargo &> /dev/null; then 
+    clean_cmd="cargo clean"
+else
+    clean_cmd="rm -rf target"
+fi
+
+for dir in ./*; do
+    pushd $dir > /dev/null
+    if [[ -f "Cargo.toml" ]]; then
+	$clean_cmd
+	echo Cleaning: ${PWD##*/}
+    else
+	echo Skipping, no Cargo.toml found: ${PWD##*/}
+    fi
+    popd > /dev/null
+done

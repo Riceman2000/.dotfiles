@@ -11,6 +11,7 @@ PIP_PACKAGES="virtualenv"
 
 CRATES="aichat bat du-dust exa gitui ripgrep cargo-update bob-nvim zellij tealdeer zr fd-find skim"
 
+echo
 echo "Packages to install: $PACKAGES"
 read -p "?Install apt/brew packages? (y/n)? " choice
 if [[ $choice =~ ^[Yy]$ ]]; then
@@ -26,6 +27,7 @@ if [[ $choice =~ ^[Yy]$ ]]; then
 fi
 
 # Rust installation - from https://rustup.rs/
+echo
 if command -v cargo >/dev/null 2>&1; then
   echo "Crates to install: cargo-binstall $CRATES"
   read -p "?Install cargo crates? Cargo-binstall will be compiled then used to install the rest (y/n)? " choice
@@ -41,6 +43,7 @@ else
   fi
 fi
 
+echo
 echo "Pip packages to install: $PIP_PACKAGES"
 read -p "?Install Pip packages? (y/n)? " choice
 if [[ $choice =~ ^[Yy]$ ]]; then
@@ -48,11 +51,13 @@ if [[ $choice =~ ^[Yy]$ ]]; then
 fi
 
 # Neovim from apt is out of date, bob can pull the latest versions
+echo
 read -p "?Install neovim using bob? (y/n)? " choice
 if [[ $choice =~ ^[Yy]$ ]]; then
-  bob use nightly
+  bob use stable
 fi
 
+echo
 if [[ $SHELL != */zsh ]]; then
   read -p "?Set zsh as default shell (y/n)? " choice
   if [[ $choice =~ ^[Yy]$ ]]; then
