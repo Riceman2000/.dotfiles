@@ -9,7 +9,7 @@ PACKAGES+=" npm python3-pip python3-venv gcc"
 
 PIP_PACKAGES="virtualenv"
 
-CRATES="aichat bat du-dust exa gitui ripgrep cargo-update bob-nvim zellij tealdeer zr fd-find skim"
+CRATES="aichat bat du-dust eza gitui ripgrep cargo-update bob-nvim zellij tealdeer zr fd-find skim"
 
 echo
 echo "Packages to install: $PACKAGES"
