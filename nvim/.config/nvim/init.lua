@@ -31,8 +31,7 @@ require('lazy').setup({
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
-  -- NOTE: This is where your plugins related to LSP can be installed.
-  --  The configuration is done below. Search for lspconfig to find it below.
+  -- LSP related config
   {
     -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
@@ -129,16 +128,11 @@ require('lazy').setup({
     },
   },
 
+  -- Add indentation guides even on blank lines
   {
-    -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
-    -- Enable `lukas-reineke/indent-blankline.nvim`
-    -- See `:help indent_blankline.txt`
+    main = "ibl",
     event = "BufAdd",
-    opts = {
-      char = '┊',
-      show_trailing_blankline_indent = false,
-    },
   },
 
   -- To comment visual regions/lines
@@ -176,6 +170,9 @@ require('lazy').setup({
     build = ':TSUpdate',
   },
 
+  -- Hold context of current location at the top of the screen
+  'nvim-treesitter/nvim-treesitter-context',
+
   -- rust-tools for type hints, debug config, and lsp config
   {
     'simrat39/rust-tools.nvim',
@@ -191,6 +188,7 @@ require('lazy').setup({
   require 'plugins.autoformat',
   require 'plugins.dashboard',
   require 'plugins.autopair',
+  require 'plugins.undotree',
   require 'plugins.crates',
   require 'plugins.debug',
 
@@ -219,6 +217,12 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = highlight_group,
   pattern = '*',
 })
+
+-- [[ Configure Indent Blank Line]]
+-- Indention guides
+require("ibl").setup {
+  indent = { char = '┊' }
+}
 
 -- [[ Configure nvim-cmp ]]
 -- neovim completions with snippets
