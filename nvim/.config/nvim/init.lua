@@ -133,6 +133,7 @@ require('lazy').setup({
     'lukas-reineke/indent-blankline.nvim',
     main = "ibl",
     event = "BufAdd",
+    opts = {}
   },
 
   -- To comment visual regions/lines
