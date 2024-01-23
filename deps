@@ -13,7 +13,7 @@ CRATES="aichat bat du-dust eza gitui ripgrep cargo-update bob-nvim zellij tealde
 
 echo
 echo "Packages to install: $PACKAGES"
-read -p "?Install apt/brew packages? (y/n)? " choice
+read -p "?Install apt/brew/yum packages? (y/n)? " choice
 if [[ $choice =~ ^[Yy]$ ]]; then
   if command -v brew >/dev/null 2>&1; then
     brew update
@@ -23,6 +23,10 @@ if [[ $choice =~ ^[Yy]$ ]]; then
     sudo apt update
     sudo apt upgrade -y
     sudo apt install -y $PACKAGES
+  elif command -v yum >/dev/null 2>&1; then
+    sudo yum update
+    sudo yum upgrade -y
+    sudo yum install -y $PACKAGES
   fi
 fi
 
