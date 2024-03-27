@@ -1,9 +1,6 @@
 --  This function gets run when an LSP connects to a particular buffer.
-local on_attach = function(_, bufnr)
-  -- NOTE: Remember that lua is a real programming language, and as such it is possible
-  -- to define small helper and utility functions so you don't have to repeat yourself
-  -- many times.
-  --
+local lz = require('lsp-zero')
+lz.on_attach(function(_, bufnr)
   -- In this case, we create a function that lets us more easily define mappings specific
   -- for LSP related items. It sets the mode, buffer and description for us each time.
   local nmap = function(keys, func, desc)
@@ -40,24 +37,21 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
     vim.lsp.buf.format()
   end, { desc = 'Format current buffer with LSP' })
-end
+end)
 
--- Enable the following language servers
---  Add any additional override configuration in the following tables. They will be passed to
---  the `settings` field of the server config. You must look up that documentation yourself.
-local servers = {
-  clangd = {},
-  pyright = {},
-  rust_analyzer = {},
-  bashls = {},
-
-  lua_ls = {
-    Lua = {
-      workspace = { checkThirdParty = false },
-      telemetry = { enable = false },
-    },
+-- Enable/configure the following language servers
+-- NOTE: They will have to be installed if you want to use them
+-- DO NOT configure rust-analyzer because rustaceanvim handles it later
+local lc = require('lspconfig')
+lc.pyright.setup({})
+lc.clangd.setup({})
+lc.bashls.setup({})
+lc.lua_ls.setup({
+  Lua = {
+    workspace = { checkThirdParty = false },
+    telemetry = { enable = false },
   },
-}
+})
 
 -- Setup neovim lua configuration
 require('neodev').setup()
@@ -65,30 +59,11 @@ require('neodev').setup()
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-
--- Ensure the servers above are installed
-local mason_lspconfig = require 'mason-lspconfig'
-
-mason_lspconfig.setup {
-  ensure_installed = vim.tbl_keys(servers),
-}
-
-mason_lspconfig.setup_handlers {
-  function(server_name)
-    require('lspconfig')[server_name].setup {
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = servers[server_name],
-    }
-  end,
-}
+capabilities = lz.get_capabilities()
 
 -- [[ Configure rust-tools ]]
--- https://github.com/simrat39/rust-tools.nvim/issues/328
-local rt = require('rust-tools')
-rt.setup({
+vim.g.rustaceanvim = {
   server = {
-    on_attach = on_attach,
     capabilities = capabilities
-  }
-})
+  },
+}
