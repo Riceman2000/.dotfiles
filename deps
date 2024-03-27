@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Things I like to have
 PACKAGES="git zsh tmux stow"
