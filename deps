@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Things I like to have
-PACKAGES="git zsh tmux stow"
+PACKAGES="git zsh tmux stow neofetch"
 # Stuff that other tools need to build
 PACKAGES+=" curl wget pkg-config libssl-dev build-essential unzip make"
 # Other envs
@@ -13,20 +13,22 @@ CRATES="aichat bat du-dust eza gitui ripgrep cargo-update bob-nvim zellij tealde
 
 echo
 echo "Packages to install: $PACKAGES"
-read -p "?Install apt/brew/yum packages? (y/n)? " choice
+read -rp "?Install apt/brew/yum packages? (y/n)? " choice
 if [[ $choice =~ ^[Yy]$ ]]; then
   if command -v brew >/dev/null 2>&1; then
     brew update
     brew upgrade
-    brew install $PACKAGES
+    brew install "$PACKAGES"
   elif command -v apt >/dev/null 2>&1; then
     sudo apt update
     sudo apt upgrade -y
-    sudo apt install -y $PACKAGES
+    sudo apt install -y "$PACKAGES"
   elif command -v yum >/dev/null 2>&1; then
     sudo yum update
     sudo yum upgrade -y
-    sudo yum install -y $PACKAGES
+    sudo yum install -y "$PACKAGES"
+  else
+    echo "No supported package manager found"
   fi
 fi
 
@@ -34,13 +36,13 @@ fi
 echo
 if command -v cargo >/dev/null 2>&1; then
   echo "Crates to install: cargo-binstall $CRATES"
-  read -p "?Install cargo crates? Cargo-binstall will be compiled then used to install the rest (y/n)? " choice
+  read -rp "?Install cargo crates? Cargo-binstall will be compiled then used to install the rest (y/n)? " choice
   if [[ $choice =~ ^[Yy]$ ]]; then
     cargo install cargo-binstall
-    cargo binstall --no-confirm $CRATES
+    cargo binstall --no-confirm "$CRATES"
   fi
 else
-  read -p "?Install rustup? (y/n)? " choice
+  read -rp "?Install rustup? (y/n)? " choice
   if [[ $choice =~ ^[Yy]$ ]]; then
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
     echo "You will need to restart your shell then run this script again to install Cargo crates..."
@@ -48,22 +50,26 @@ else
 fi
 
 echo
-echo "Pip packages to install: $PIP_PACKAGES"
-read -p "?Install Pip packages? (y/n)? " choice
-if [[ $choice =~ ^[Yy]$ ]]; then
-  python3 -m pip install $PIP_PACKAGES
+if command -v python3 >/dev/null 2>&1; then
+  echo "Pip packages to install: $PIP_PACKAGES"
+  read -rp "?Install Pip packages? (y/n)? " choice
+  if [[ $choice =~ ^[Yy]$ ]]; then
+    python3 -m pip install $PIP_PACKAGES
+  fi
+else 
+  echo "Python3 not found, can't install pip packages"
 fi
 
 # Neovim from apt is out of date, bob can pull the latest versions
 echo
-read -p "?Install neovim using bob? (y/n)? " choice
+read -rp "?Install neovim using bob? (y/n)? " choice
 if [[ $choice =~ ^[Yy]$ ]]; then
   bob use stable
 fi
 
 echo
 if [[ $SHELL != */zsh ]]; then
-  read -p "?Set zsh as default shell (y/n)? " choice
+  read -rp "?Set zsh as default shell (y/n)? " choice
   if [[ $choice =~ ^[Yy]$ ]]; then
     chsh -s "$(command -v zsh)"
     echo "You may need a terminal/system reboot for this change to stick."
