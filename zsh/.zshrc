@@ -52,11 +52,16 @@ if [[ -f $ZR_FILE ]]; then
 else
   echo "ZR plugin manager not active"
 fi
+
 # -=-=-=-=-=-=-=-=-=-=-=-=-=- zoxide -=-=-=-=-=-=-=-=-=-=-=-=-=-
 if (( $+commands[zoxide] )); then
   eval "$(zoxide init zsh --cmd cd)"
 else
   echo "Zoxide not active"
 fi
+
 # -=-=-=-=-=-=-=-=-=-=-=-=-=- Load auto-complete -=-=-=-=-=-=-=-=-=-=-=-=-=-
 autoload -Uz compinit && compinit
+
+# -=-=-=-=-=-=-=-=-=-=-=-=-=- Show neofetch -=-=-=-=-=-=-=-=-=-=-=-=-=-
+neofetch
