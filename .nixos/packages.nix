@@ -39,6 +39,7 @@
     skim
     gitui
     zellij
+    zoxide
     du-dust
     ripgrep
     tealdeer
@@ -50,9 +51,14 @@
     cmake
     gnumake
     # Gui
+    foot
     kitty
     discord
+    keepassxc
+    # Gaming
     steam
     steam-run
+    # Networking
+    syncthing
   ];
 }

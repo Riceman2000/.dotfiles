@@ -154,8 +154,53 @@
     enableSSHSupport = true;
   };
 
-  # Enable the OpenSSH daemon.
+  # OpenSSH
   services.openssh.enable = true;
+
+  # Syncthing
+  services.syncthing = {
+    enable = true;
+    user = "rice";
+    dataDir = "/home/rice/sync";
+    configDir = "/home/rice/.config/syncthing";
+    settings = {
+      devices = {
+        "Alexs-Air" = { id = "2CNAWNH-UIMML2Z-2KZ27BB-VQ5LEZA-6GHO33J-SCZ6OYM-52TRVCG-CGBKIQD"; };
+      };
+      folders = {
+        "Dog Accessories" = {
+          id = "isiay-ywwlr";
+          path = "~/Sync/Dog Accessories";
+          devices = [ "Alexs-Air" ];
+          versioning.type = "staggered";
+        };
+        "KeePassXC" = {
+          id = "jxzyx-j4d2g";
+          path = "~/Sync/KeePassXC";
+          devices = [ "Alexs-Air" ];
+          versioning.type = "staggered";
+        };
+        "VPNs" = {
+          id = "qygq2-rtwmr";
+          path = "~/Sync/VPNs";
+          devices = [ "Alexs-Air" ];
+          versioning.type = "staggered";
+        };
+        "Misc" = {
+          id = "veqod-wslkh";
+          path = "~/Sync/Misc";
+          devices = [ "Alexs-Air" ];
+          versioning.type = "staggered";
+        };
+        "ssh" = {
+          id = "zvfny-shq46";
+          path = "~/.ssh";
+          devices = [ "Alexs-Air" ];
+          versioning.type = "staggered";
+        };
+      };
+    };
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
