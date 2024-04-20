@@ -8,6 +8,7 @@ alias cat="bat"
 alias ai="aichat"
 # sk
 alias rsk="sk -i -c 'rg --hidden --color=always --line-number "{}"' --preview '~/scripts/preview.sh {}'"
+alias rvsk="rsk | awk -F: '{print \$1 \" +\" \$2}' | xargs nvim"
 alias vsk="sk --bind 'enter:execute(nvim {})+abort' || true"
 alias bsk="sk --bind 'enter:execute(bat {})+abort' || true"
 # Git
