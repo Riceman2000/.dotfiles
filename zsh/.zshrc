@@ -1,7 +1,7 @@
 # -=-=-=-=-=-=-=-=-=-=-=-=-=- Aliases -=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Rust stuff
 alias ls="eza"
-alias ll="eza -lha"
+alias ll="eza -lhag"
 alias du="dust"
 alias du1="dust -d=1"
 alias cat="bat"
