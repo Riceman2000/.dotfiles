@@ -10,6 +10,10 @@ alias ai="aichat"
 alias rsk="sk -i -c 'rg --hidden --color=always --line-number "{}"' --preview '~/scripts/preview.sh {}'"
 alias vsk="sk --bind 'enter:execute(nvim {})+abort' || true"
 alias bsk="sk --bind 'enter:execute(bat {})+abort' || true"
+# Git
+alias fap="git fetch && git pull"
+alias gp="git push"
+alias gs="git status"
 # General
 alias c="clear"
 
