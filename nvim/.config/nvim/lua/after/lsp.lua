@@ -1,6 +1,11 @@
 --  This function gets run when an LSP connects to a particular buffer.
 local lz = require('lsp-zero')
-lz.on_attach(function(_, bufnr)
+lz.on_attach(function(client, bufnr)
+  -- Enable inlay hints on attach if LSP supports
+  if client.supports_method("textDocument/inlayHint") then
+    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+  end
+
   -- In this case, we create a function that lets us more easily define mappings specific
   -- for LSP related items. It sets the mode, buffer and description for us each time.
   local nmap = function(keys, func, desc)
@@ -13,6 +18,11 @@ lz.on_attach(function(_, bufnr)
 
   nmap('<leader>lr', vim.lsp.buf.rename, '[L]SP [R]ename')
   nmap('<leader>la', vim.lsp.buf.code_action, '[L]SP Code [A]ction')
+  nmap('<leader>lh', function()
+      local current_setting = vim.lsp.inlay_hint.is_enabled(bufnr)
+      vim.lsp.inlay_hint.enable(not current_setting, { bufnr = bufnr })
+    end,
+    '[L]SP Inlay [H]ints toggle')
 
   nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
@@ -61,7 +71,7 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 capabilities = lz.get_capabilities()
 
--- [[ Configure rust-tools ]]
+-- [[ Configure rustaceanvim ]]
 vim.g.rustaceanvim = {
   server = {
     capabilities = capabilities

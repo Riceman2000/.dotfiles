@@ -1,6 +1,9 @@
 return {
   'mfussenegger/nvim-dap',
   dependencies = {
+    -- Needed as a async runtime
+    'nvim-neotest/nvim-nio',
+
     -- Creates a beautiful debugger UI
     'rcarriga/nvim-dap-ui',
 
