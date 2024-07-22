@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 # Things I like to have
-PACKAGES="git zsh tmux stow neofetch"
+PACKAGES="git zsh tmux stow neofetch sccache"
 # Stuff that other tools need to build
-PACKAGES+=" curl wget pkg-config libssl-dev build-essential unzip make"
-# Other envs
-PACKAGES+=" npm python3-pip python3-venv gcc"
+PACKAGES+=" curl wget pkg-config unzip make"
+# Other things
+PACKAGES+=" npm gcc"
 
 PIP_PACKAGES="virtualenv"
 
@@ -18,7 +18,7 @@ if [[ $choice =~ ^[Yy]$ ]]; then
   if command -v brew >/dev/null 2>&1; then
     brew update
     brew upgrade
-    brew install "$PACKAGES"
+    brew install $PACKAGES
   elif command -v apt >/dev/null 2>&1; then
     sudo apt update
     sudo apt upgrade -y
@@ -35,11 +35,21 @@ fi
 # Rust installation - from https://rustup.rs/
 echo
 if command -v cargo >/dev/null 2>&1; then
-  echo "Crates to install: cargo-binstall $CRATES"
-  read -rp "?Install cargo crates? Cargo-binstall will be compiled then used to install the rest (y/n)? " choice
+  echo "Crates to install: $CRATES"
+  read -rp "?Install cargo crates? (y/n)? " choice
   if [[ $choice =~ ^[Yy]$ ]]; then
-    cargo install cargo-binstall
-    cargo binstall --no-confirm "$CRATES"
+    read -rp "  ?Install using cargo-binstall? (y/n)? " choice
+    if [[ $choice =~ ^[Yy]$ ]]; then
+      cargo install cargo-binstall
+      cargo binstall --no-confirm "$CRATES"
+    fi
+    read -rp "  ?Install using sccache? (y/n)? " choice
+    if [[ $choice =~ ^[Yy]$ ]]; then
+      SCCACHE=$(which sccache)
+      for crate in $CRATES; do
+        RUSTC_WRAPPER=$SCCACHE cargo install $crate
+      done
+    fi
   fi
 else
   read -rp "?Install rustup? (y/n)? " choice
