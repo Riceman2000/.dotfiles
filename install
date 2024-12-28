@@ -1,22 +1,21 @@
-#!/usr/bin/env zsh
-# Make sure zsh is installed on target system
+#!/usr/bin/env fish
+# Make sure fish is installed on target system
 
-pushd ~/.dotfiles
+pushd $DOTFILES
 for item in *
-do
-    if [ -d $item ]; then
+    if [ -d $item ]
         echo "Stowing directory --> " $item
         stow -D $item
         stow $item
     else
         echo "Ignoring file --> " $item
-    fi
-done
+    end
+end
 popd
 
 echo "Dotfiles deployed. Do you want to restart your shell to see changes? (y/n)"
 read confirm
-if [ "$confirm" = "y" ]; then
+if [ "$confirm" = "y" ]
     echo "Restarting..."
-    exec ${SHELL}
-fi
+    exec {$SHELL}
+end

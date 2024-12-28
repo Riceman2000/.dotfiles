@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Things I like to have
-PACKAGES="git zsh tmux stow neofetch sccache"
+PACKAGES="git fish tmux stow neofetch sccache"
 # Stuff that other tools need to build
 PACKAGES+=" curl wget pkg-config unzip make"
 # Other things
@@ -9,7 +9,7 @@ PACKAGES+=" npm gcc"
 
 PIP_PACKAGES="virtualenv"
 
-CRATES="aichat bat du-dust eza gitui ripgrep cargo-update bob-nvim zellij tealdeer zr fd-find skim zoxide"
+CRATES="aichat bat du-dust eza gitui ripgrep cargo-update bob-nvim zellij tealdeer fd-find skim"
 
 echo
 echo "Packages to install: $PACKAGES"
@@ -78,14 +78,14 @@ if [[ $choice =~ ^[Yy]$ ]]; then
 fi
 
 echo
-if [[ $SHELL != */zsh ]]; then
-  read -rp "?Set zsh as default shell (y/n)? " choice
+if [[ $SHELL != */fish ]]; then
+  read -rp "?Set fish as default shell (y/n)? " choice
   if [[ $choice =~ ^[Yy]$ ]]; then
-    chsh -s "$(command -v zsh)"
+    chsh -s "$(command -v fish)"
     echo "You may need a terminal/system reboot for this change to stick."
   fi
 else
-  echo "zsh is already default, nothing to do here..."
+  echo "fish is already default, nothing to do here..."
 fi
 
 echo "Done!"
