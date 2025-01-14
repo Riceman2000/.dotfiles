@@ -3,8 +3,9 @@
 -- Set highlight on search
 vim.o.hlsearch = false
 
--- Make line numbers default
+-- Configure default line numbers
 vim.wo.number = true
+vim.wo.relativenumber = true
 
 -- Enable mouse mode
 vim.o.mouse = 'a'
