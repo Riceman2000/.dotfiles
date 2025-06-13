@@ -12,6 +12,9 @@ if status is-interactive
 
     export DOTFILES=$HOME/.dotfiles
 
+    # Fix some SSH sessions with older OSes that dont support ghostty
+    export TERM=xterm-256color
+
     aliases # Loads all alias functions
 end
 
