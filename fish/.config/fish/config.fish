@@ -10,7 +10,13 @@ if status is-interactive
     export GIT_EDITOR=$VIM
     export EDITOR=$VIM
 
+    # Other vars
     export DOTFILES=$HOME/.dotfiles
+
+    # Things to add to path
+    fish_add_path $HOME/.cargo/bin
+    fish_add_path $HOME/.local/share/bob/nvim-bin
+    fish_add_path $HOME/.local/bin
 
     # Fix some SSH sessions with older OSes that dont support ghostty
     export TERM=xterm-256color
