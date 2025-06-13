@@ -1,2 +1,6 @@
 # MacOS
 .DS_Store
+
+# Generated files
+fish_variables
+lazy-lock.json
