@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 # Things I like to have
-PACKAGES="git fish tmux stow neofetch sccache"
+PACKAGES="git fish tmux stow fastfetch sccache"
 # Stuff that other tools need to build
-PACKAGES+=" curl wget pkg-config unzip make"
+PACKAGES+=" curl wget pkg-config unzip make cmake"
 # Other things
 PACKAGES+=" npm gcc"
 
@@ -15,42 +15,75 @@ echo
 echo "Packages to install: $PACKAGES"
 read -rp "?Install apt/brew/yum packages? (y/n)? " choice
 if [[ $choice =~ ^[Yy]$ ]]; then
+  FAILED_PKGS=""
   if command -v brew >/dev/null 2>&1; then
     brew update
     brew upgrade
-    brew install $PACKAGES
+    for pkg in $PACKAGES; do
+        brew install $pkg
+	if [ $? -ne 0 ]; then
+	    FAILED_PKGS+=" $pkg"
+	fi
+    done
   elif command -v apt >/dev/null 2>&1; then
     sudo apt update
     sudo apt upgrade -y
-    sudo apt install -y "$PACKAGES"
-  elif command -v yum >/dev/null 2>&1; then
-    sudo yum update
-    sudo yum upgrade -y
-    sudo yum install -y "$PACKAGES"
+    for pkg in $PACKAGES; do
+        sudo apt install -y $pkg
+	if [ $? -ne 0 ]; then
+	    FAILED_PKGS+=" $pkg"
+	fi
+    done
   else
     echo "No supported package manager found"
   fi
+
+  if [[ -n "$FAILED_PKGS" ]]; then
+    echo "Failed to install the following packages:$FAILED_PKGS"
+  else
+    echo "All packages installed successfully"
+  fi
 fi
 
-# Rust installation - from https://rustup.rs/
 echo
+# If cargo is available ask to install crates
 if command -v cargo >/dev/null 2>&1; then
   echo "Crates to install: $CRATES"
   read -rp "?Install cargo crates? (y/n)? " choice
   if [[ $choice =~ ^[Yy]$ ]]; then
     read -rp "  ?Install using cargo-binstall? (y/n)? " choice
+    FAILED_CRATES=""
     if [[ $choice =~ ^[Yy]$ ]]; then
       cargo install cargo-binstall
-      cargo binstall --no-confirm "$CRATES"
+      for crate in $CRATES; do
+        cargo binstall --no-confirm $crate
+	# Fallback to compiled 
+	if [ $? -ne 0 ]; then
+	  cargo install $crate --locked
+	  if [ $? -ne 0 ]; then
+	    FAILED_CRATES+=" $crate"
+	  fi
+	fi
+      done
     fi
     read -rp "  ?Install using sccache? (y/n)? " choice
     if [[ $choice =~ ^[Yy]$ ]]; then
       SCCACHE=$(which sccache)
       for crate in $CRATES; do
-        RUSTC_WRAPPER=$SCCACHE cargo install $crate
+        RUSTC_WRAPPER=$SCCACHE cargo install $crate --locked
+	if [ $? -ne 0 ]; then
+	  FAILED_CRATES+=" $crate"
+	fi
       done
     fi
+    if [[ -n "$FAILED_CRATES" ]]; then
+      echo "Failed to find the following crates:$FAILED_CRATES"
+    else
+      echo "All crates installed successfully"
+    fi
   fi
+
+# Rust installation - from https://rustup.rs/
 else
   read -rp "?Install rustup? (y/n)? " choice
   if [[ $choice =~ ^[Yy]$ ]]; then

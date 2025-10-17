@@ -27,5 +27,5 @@ end
 # Overrides the default MOTD
 function fish_greeting
     echo The time is (set_color yellow; date +%T; set_color normal) and this machine\'s hostname is (set_color yellow; echo $hostname; set_color normal)
-    neofetch
+    fastfetch
 end
