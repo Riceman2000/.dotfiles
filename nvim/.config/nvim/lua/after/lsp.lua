@@ -52,16 +52,31 @@ end)
 -- Enable/configure the following language servers
 -- NOTE: They will have to be installed if you want to use them
 -- DO NOT configure rust-analyzer because rustaceanvim handles it later
-local lc = require('lspconfig')
-lc.pyright.setup({})
-lc.clangd.setup({})
-lc.bashls.setup({})
-lc.lua_ls.setup({
-  Lua = {
-    workspace = { checkThirdParty = false },
-    telemetry = { enable = false },
+local lsps = {
+  { "lua_ls" },
+  { "pyright" },
+  { "clangd" },
+  { "bashls" },
+  { "gopls" },
+  { "clangd", {
+    init_options = {
+      -- Use c23 as a fallback so the lsp
+      -- knows about true, false, etc - see:
+      -- https://xnacly.me/posts/2025/clangd-lsp/
+      fallbackFlags = { '--std=c23' }
+    },
+  }
   },
-})
+}
+
+-- Iterate through list of LSPs and enable/configure them
+for _, lsp in pairs(lsps) do
+  local name, config = lsp[1], lsp[2]
+  vim.lsp.enable(name)
+  if config then
+    vim.lsp.config(name, config)
+  end
+end
 
 -- Setup neovim lua configuration
 require('neodev').setup()
