@@ -49,32 +49,13 @@ lz.on_attach(function(client, bufnr)
   end, { desc = 'Format current buffer with LSP' })
 end)
 
--- Enable/configure the following language servers
+-- Load all LSP's in ./lsp dir
 -- NOTE: They will have to be installed if you want to use them
 -- DO NOT configure rust-analyzer because rustaceanvim handles it later
-local lsps = {
-  { "lua_ls" },
-  { "pyright" },
-  { "clangd" },
-  { "bashls" },
-  { "gopls" },
-  { "clangd", {
-    init_options = {
-      -- Use c23 as a fallback so the lsp
-      -- knows about true, false, etc - see:
-      -- https://xnacly.me/posts/2025/clangd-lsp/
-      fallbackFlags = { '--std=c23' }
-    },
-  }
-  },
-}
-
--- Iterate through list of LSPs and enable/configure them
-for _, lsp in pairs(lsps) do
-  local name, config = lsp[1], lsp[2]
-  vim.lsp.enable(name)
-  if config then
-    vim.lsp.config(name, config)
+local lsp_path = vim.fn.stdpath("config") .. "/lua/after/lsp"
+for _, file in ipairs(vim.fn.readdir(lsp_path)) do
+  if file:match("%.lua$") then
+    dofile(lsp_path .. "/" .. file)
   end
 end
 

@@ -182,6 +182,7 @@ require('lazy').setup({
 
   -- other plugins, see lua/plugins
   require 'plugins.autoformat',
+  require 'plugins.toggleterm',
   require 'plugins.dashboard',
   require 'plugins.autopair',
   require 'plugins.undotree',
