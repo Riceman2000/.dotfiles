@@ -128,7 +128,8 @@ function render_scene()
 
   local manim_cmd = string.format("manim -ql '%s' '%s' --media_dir '%s'", file_path, class_name, media_dir)
   local mpv_cmd = string.format("mpv '%s'", video_path)
-  local cmd = manim_cmd .. " && " .. mpv_cmd
+  local cmd = "echo '" .. manim_cmd .. "' && " ..
+      manim_cmd .. " && " .. mpv_cmd .. " || read -p 'Press enter to continue'"
 
   require("toggleterm.terminal").Terminal:new({ cmd = cmd }):toggle()
 end
