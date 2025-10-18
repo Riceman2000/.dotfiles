@@ -16,6 +16,10 @@ end
 
 -- See `:help vim.keymap.set()`
 
+-- Disable right mouse
+vim.keymap.set("n", "<RightMouse>", "<Nop>", { noremap = true })
+vim.keymap.set("v", "<RightMouse>", "<Nop>", { noremap = true })
+
 -- Keymaps for better default experience
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
