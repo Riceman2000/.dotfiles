@@ -12,5 +12,3 @@ vim.lsp.config.clangd = {
     fallbackFlags = { '--std=c23' }
   },
 }
-
-vim.lsp.enable("clangd")

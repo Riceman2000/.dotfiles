@@ -29,24 +29,19 @@ require('lazy').setup({
   'tpope/vim-rhubarb',
 
   -- Detect tabstop and shiftwidth automatically
-  'tpope/vim-sleuth',
+  'NMAC427/guess-indent.nvim',
+  -- 'tpope/vim-sleuth',
+
+  -- File browser
+  {
+    'stevearc/oil.nvim',
+    opts = {},
+    lazy = false
+  },
 
   -- LSP related config
-  -- Wrapper around the more complex LSP setup
-  { 'VonHeikemen/lsp-zero.nvim', branch = 'v3.x' },
-  {
-    -- LSP Configuration & Plugins
-    'neovim/nvim-lspconfig',
-    dependencies = {
-      -- Useful status updates for LSP
-      -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
-
-      -- Additional lua configuration, makes nvim stuff amazing!
-      'folke/neodev.nvim',
-    },
-    opts = { inlay_hints = { enabled = true }, },
-  },
+  -- Status updates on LSP loading
+  { 'j-hui/fidget.nvim', opts = {} },
 
   {
     -- Autocompletion
@@ -93,9 +88,9 @@ require('lazy').setup({
         changedelete = { text = '~' },
       },
       on_attach = function(bufnr)
-        vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk,
+        vim.keymap.set('n', '<leader>gp', function() require('gitsigns').nav_hunk('prev') end,
           { buffer = bufnr, desc = 'Git: [G]o to [P]revious Hunk' })
-        vim.keymap.set('n', '<leader>gn', require('gitsigns').next_hunk,
+        vim.keymap.set('n', '<leader>gn', function() require('gitsigns').nav_hunk('next') end,
           { buffer = bufnr, desc = 'Git: [G]o to [N]ext Hunk' })
         vim.keymap.set('n', '<leader>ph', require('gitsigns').preview_hunk,
           { buffer = bufnr, desc = 'Git: [P]review [H]unk' })

@@ -28,8 +28,6 @@ vim.lsp.config.pyright = {
   }
 }
 
-vim.lsp.enable("pyright")
-
 -- Manim render keybind
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)

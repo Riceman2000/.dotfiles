@@ -6,5 +6,3 @@ vim.lsp.config.fishls = {
   },
   single_file_support = true,
 }
-
-vim.lsp.enable("fishls")

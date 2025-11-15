@@ -6,5 +6,3 @@ vim.lsp.config.bashls = {
   },
   single_file_support = true,
 }
-
-vim.lsp.enable("bashls")

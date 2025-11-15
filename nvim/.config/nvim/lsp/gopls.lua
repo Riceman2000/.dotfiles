@@ -6,5 +6,3 @@ vim.lsp.config.gopls = {
   },
   single_file_support = true,
 }
-
-vim.lsp.enable("gopls")

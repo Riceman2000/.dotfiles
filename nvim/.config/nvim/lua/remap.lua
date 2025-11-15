@@ -31,7 +31,7 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 nmap('<leader>f', vim.lsp.buf.format, '[F]ormat')
 
 -- Open netrw
-nmap('<leader>pv', vim.cmd.Ex, "Open netrw")
+nmap('<leader>pv', ":Oil<CR>", "Open Oil file explorer")
 
 -- Move chunks while in visual mode
 vmap('J', ":m '>+1<CR>gv=gv", nil) -- Move chunk DOWN

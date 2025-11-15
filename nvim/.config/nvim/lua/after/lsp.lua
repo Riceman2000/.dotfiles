@@ -1,71 +1,77 @@
 --  This function gets run when an LSP connects to a particular buffer.
-local lz = require('lsp-zero')
-lz.on_attach(function(client, bufnr)
-  -- Enable inlay hints on attach if LSP supports
-  if client.supports_method("textDocument/inlayHint") then
-    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-  end
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(args)
+    local bufnr = args.buf
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
 
-  -- In this case, we create a function that lets us more easily define mappings specific
-  -- for LSP related items. It sets the mode, buffer and description for us each time.
-  local nmap = function(keys, func, desc)
-    if desc then
-      desc = 'LSP: ' .. desc
+    -- Enable inlay hints on attach if LSP supports
+    if client.supports_method("textDocument/inlayHint") then
+      vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
     end
 
-    vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
-  end
+    -- In this case, we create a function that lets us more easily define mappings specific
+    -- for LSP related items. It sets the mode, buffer and description for us each time.
+    local nmap = function(keys, func, desc)
+      if desc then
+        desc = 'LSP: ' .. desc
+      end
 
-  nmap('<leader>lr', vim.lsp.buf.rename, '[L]SP [R]ename')
-  nmap('<leader>la', vim.lsp.buf.code_action, '[L]SP Code [A]ction')
-  nmap('<leader>lh', function()
-      local current_setting = vim.lsp.inlay_hint.is_enabled(bufnr)
-      vim.lsp.inlay_hint.enable(not current_setting, { bufnr = bufnr })
-    end,
-    '[L]SP Inlay [H]ints toggle')
+      vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
+    end
 
-  nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-  nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-  nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
-  nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
-  nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-  nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+    nmap('<leader>lr', vim.lsp.buf.rename, '[L]SP [R]ename')
+    nmap('<leader>la', vim.lsp.buf.code_action, '[L]SP Code [A]ction')
+    nmap('<leader>lh', function()
+        local current_setting = vim.lsp.inlay_hint.is_enabled(bufnr)
+        vim.lsp.inlay_hint.enable(not current_setting, { bufnr = bufnr })
+      end,
+      '[L]SP Inlay [H]ints toggle')
 
-  -- See `:help K` for why this keymap
-  nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+    nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+    nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+    nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
+    nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
+    nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
+    nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
-  -- Lesser used LSP functionality
-  nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-  nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
-  nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
-  nmap('<leader>wl', function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, '[W]orkspace [L]ist Folders')
+    -- See `:help K` for why this keymap
+    nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
+    nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
-  -- Create a command `:Format` local to the LSP buffer
-  vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-    vim.lsp.buf.format()
-  end, { desc = 'Format current buffer with LSP' })
-end)
+    -- Lesser used LSP functionality
+    nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+    nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
+    nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
+    nmap('<leader>wl', function()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, '[W]orkspace [L]ist Folders')
 
--- Load all LSP's in ./lsp dir
+    -- Create a command `:Format` local to the LSP buffer
+    vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
+      vim.lsp.buf.format()
+    end, { desc = 'Format current buffer with LSP' })
+  end,
+})
+
+-- Load all LSP's in /lsp dir
 -- NOTE: They will have to be installed if you want to use them
 -- DO NOT configure rust-analyzer because rustaceanvim handles it later
-local lsp_path = vim.fn.stdpath("config") .. "/lua/after/lsp"
-for _, file in ipairs(vim.fn.readdir(lsp_path)) do
-  if file:match("%.lua$") then
-    dofile(lsp_path .. "/" .. file)
-  end
-end
-
--- Setup neovim lua configuration
-require('neodev').setup()
+vim.lsp.enable({
+  "bashls",
+  "clangd",
+  "fish_lsp",
+  "gopls",
+  "lua_ls",
+  "pyright"
+})
 
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-capabilities = lz.get_capabilities()
+vim.lsp.config('*', {
+  capabilities = capabilities
+})
+
 
 -- [[ Configure rustaceanvim ]]
 vim.g.rustaceanvim = {
