@@ -29,13 +29,14 @@ return {
       -- see mason-nvim-dap README for more information
       handlers = {},
 
+      -- Always installed debuggers
       ensure_installed = {
-        -- Update this to ensure that you have the debuggers for the langs you want
         'bashdb',
+        'codelldb',
       },
     }
 
-    -- Basic debugging keymaps, feel free to change to your liking!
+    -- Debugging keymaps
     vim.keymap.set('n', '<F5>', dap.continue, { desc = 'Debug: Start/Continue ' })
     vim.keymap.set('n', '<F1>', dap.step_into, { desc = 'Debug: Step Into' })
     vim.keymap.set('n', '<F2>', dap.step_over, { desc = 'Debug: Step Over' })
@@ -49,8 +50,6 @@ return {
     -- For more information, see |:help nvim-dap-ui|
     dapui.setup {
       -- Set icons to characters that are more likely to work in every terminal.
-      --    Feel free to remove or use ones that you like more! :)
-      --    Don't feel like these are good choices.
       icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
       controls = {
         icons = {
