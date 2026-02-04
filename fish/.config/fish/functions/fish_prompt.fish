@@ -48,8 +48,27 @@ function fish_prompt
         end
     end
 
-    # Shorten pwd if prompt is too long
+    # Current working directory
     set -l pwd (prompt_pwd)
+    set -l base (path basename (pwd))
+
+    # Shorten pwd if it is too long based on term width
+    set -l max_len (math "floor($COLUMNS * 0.2)")
+    set -l pwd_len (string length -- $pwd)
+    set -l chars_to_remove (math "$pwd_len - $max_len")
+    if test $chars_to_remove -gt 0
+    	set -l base_len (string length -- $base)
+        set -l pre_dirs_len (math "$pwd_len - $base_len")
+
+		# If cutting the pre-dirs will do, just truc those from the left
+		if test $pre_dirs_len -gt $chars_to_remove
+    	    set -l trunc_len (math "$max_len - 2")
+        	set pwd "…/"(string sub -s -$trunc_len -- $pwd)
+		else # If cutting the pre-dirs isn't enough trunc base from the right
+    	    set -l trunc_len (math "$max_len - 3")
+    	    set pwd "…/"(string sub -l $trunc_len -- $base)"…"
+    	end
+	end
 
     echo -n -s $prompt_host $cwd $pwd $normal $prompt_status $delim
 end
