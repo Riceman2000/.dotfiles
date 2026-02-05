@@ -39,3 +39,27 @@ abbr -a gi "gitui"
 # General
 abbr -a c "clear"
 abbr -a wt "curl wttr.in"
+
+# Memory aid for all of these
+function ahelp
+    echo "\
+ahelp:
+ls   -> eza
+ll   -> eza -lhag
+cat  -> bat
+du   -> dust
+du1  -> dust -d=1
+ai   -> aichat
+rsk  -> skim ripgrep
+rvsk -> skim ripgrep into nvim
+vsk  -> skim files into nvim
+bsk  -> skim files into bat
+csk  -> skim directories into cd
+fap  -> git fetch && git pull
+gp   -> git push
+gs   -> git status
+gi   -> gitui
+c    -> clear
+wt   -> curl wttr.in\
+    "
+end
