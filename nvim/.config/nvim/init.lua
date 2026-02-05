@@ -29,7 +29,10 @@ require('lazy').setup({
   'tpope/vim-rhubarb',
 
   -- Detect tabstop and shiftwidth automatically
-  'NMAC427/guess-indent.nvim',
+  {
+    'NMAC427/guess-indent.nvim',
+    opts = {},
+  },
   -- 'tpope/vim-sleuth',
 
   -- File browser
@@ -179,7 +182,7 @@ require('lazy').setup({
   require 'plugins.autoformat',
   require 'plugins.toggleterm',
   require 'plugins.dashboard',
-  require 'plugins.autopair',
+  -- require 'plugins.autopair',
   require 'plugins.undotree',
   require 'plugins.crates',
   require 'plugins.debug',
