@@ -24,6 +24,11 @@ if status is-interactive
     aliases # Loads all alias functions
 end
 
+# If zellij installed do completions
+if type -q zellij
+    zellij setup --generate-completion fish | source
+end
+
 # Overrides the default MOTD
 function fish_greeting
     echo The time is (set_color yellow; date +%T; set_color normal) and this machine\'s hostname is (set_color yellow; echo $hostname; set_color normal)
