@@ -31,7 +31,7 @@ if type -q zellij
 end
 
 # If pyenv installed init shell
-if type -q zellij
+if type -q pyenv
     pyenv init - fish | source
 end
 
