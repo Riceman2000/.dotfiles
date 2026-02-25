@@ -17,11 +17,22 @@ if status is-interactive
     fish_add_path $HOME/.cargo/bin
     fish_add_path $HOME/.local/share/bob/nvim-bin
     fish_add_path $HOME/.local/bin
+    fish_add_path $HOME/.pyenv/bin
 
     # Fix some SSH sessions with older OSes that dont support ghostty
     export TERM=xterm-256color
 
     aliases # Loads all alias functions
+end
+
+# If zellij installed do completions
+if type -q zellij
+    zellij setup --generate-completion fish | source
+end
+
+# If pyenv installed init shell
+if type -q pyenv
+    pyenv init - fish | source
 end
 
 # Overrides the default MOTD

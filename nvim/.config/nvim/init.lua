@@ -182,7 +182,7 @@ require('lazy').setup({
   require 'plugins.autoformat',
   require 'plugins.toggleterm',
   require 'plugins.dashboard',
-  require 'plugins.autopair',
+  -- require 'plugins.autopair',
   require 'plugins.undotree',
   require 'plugins.crates',
   require 'plugins.debug',
