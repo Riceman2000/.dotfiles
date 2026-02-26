@@ -57,13 +57,13 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- NOTE: They will have to be installed if you want to use them
 -- DO NOT configure rust-analyzer because rustaceanvim handles it later
 vim.lsp.enable({
-	"bashls",
-	"clangd",
-	"fish_lsp",
-	"gopls",
-	"lua_ls",
-	"pyright",
-	"nil_ls"
+  "bashls",
+  "clangd",
+  "fish_lsp",
+  "gopls",
+  "lua_ls",
+  "pyright", -- Python analysis
+  "ruff"     -- Python formatting
 })
 
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
