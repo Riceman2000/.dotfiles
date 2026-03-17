@@ -14,6 +14,7 @@ if status is-interactive
     export DOTFILES=$HOME/.dotfiles
 
     # Things to add to path
+    fish_add_path $HOME/scripts
     fish_add_path $HOME/.cargo/bin
     fish_add_path $HOME/.local/share/bob/nvim-bin
     fish_add_path $HOME/.local/bin
