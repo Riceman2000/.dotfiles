@@ -38,8 +38,12 @@ require('lazy').setup({
   -- File browser
   {
     'stevearc/oil.nvim',
-    opts = {},
-    lazy = false
+    opts = {
+      lazy = false,
+      view_options = {
+        show_hidden = true,
+      },
+    },
   },
 
   -- LSP related config
