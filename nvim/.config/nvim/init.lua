@@ -176,6 +176,10 @@ require('lazy').setup({
   -- Spell checking diagnostic source
   {
     'poljar/typos.nvim',
+    cond = function()
+      -- Only use this plugin if typos is installed
+      return vim.fn.executable('typos') == 1
+    end,
     opts = {}
   },
 
