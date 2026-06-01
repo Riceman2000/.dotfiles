@@ -68,5 +68,5 @@ fi
 # -=-=-=-=-=-=-=-=-=-=-=-=-=- Load auto-complete -=-=-=-=-=-=-=-=-=-=-=-=-=-
 autoload -Uz compinit && compinit
 
-# -=-=-=-=-=-=-=-=-=-=-=-=-=- Show neofetch -=-=-=-=-=-=-=-=-=-=-=-=-=-
-neofetch
+# -=-=-=-=-=-=-=-=-=-=-=-=-=- Show fastfetch -=-=-=-=-=-=-=-=-=-=-=-=-=-
+fastfetch

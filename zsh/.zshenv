@@ -10,9 +10,11 @@ export EDITOR=$VIM
 export DOTFILES=$HOME/.dotfiles
 
 # Add things to PATH, check before doing so
-PATHS_TO_ADD=("$HOME/.cargo/bin" \
+PATHS_TO_ADD=( \
+  "$HOME/.cargo/bin" \
   "$HOME/.local/share/bob/nvim-bin" \
-  "$HOME/.local/bin")
+  "$HOME/.local/bin" \
+)
 
 for path_to_add in "${PATHS_TO_ADD[@]}"
 do
@@ -21,3 +23,8 @@ do
     [[ ":$PATH:" != *":$real_path:"* ]] && PATH="$real_path:${PATH}"
   fi
 done
+. "$HOME/.cargo/env"
+
+# If Cargo has env, source it
+[[ -f "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"
+
