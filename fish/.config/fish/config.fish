@@ -41,6 +41,11 @@ if test -f "$HOME/export-esp.sh"
     . "$HOME/export-esp.sh"
 end
 
+# If cargo is installed, source setup file
+if test -f "$HOME/.cargo/env.fish"
+    . "$HOME/.cargo/env.fish"
+end
+
 # Overrides the default MOTD
 function fish_greeting
     echo The time is (set_color yellow; date +%T; set_color normal) and this machine\'s hostname is (set_color yellow; echo $hostname; set_color normal)
