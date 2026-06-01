@@ -1,4 +1,4 @@
-vim.lsp.config.fishls = {
+return {
   cmd = { "fish-lsp", "start" },
   filetypes = { "fish" },
   root_markers = {

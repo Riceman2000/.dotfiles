@@ -141,22 +141,13 @@ require('lazy').setup({
 
   -- Fuzzy Finder (files, lsp, etc)
   {
-    'nvim-telescope/telescope.nvim',
-    branch = '0.1.x',
-    dependencies = { 'nvim-lua/plenary.nvim' }
-  },
-
-  -- Fuzzy Finder Algorithm which requires local dependencies to be built.
-  -- Only load if `make` is available. Make sure you have the system
-  -- requirements installed.
-  {
-    'nvim-telescope/telescope-fzf-native.nvim',
-    -- NOTE: If you are having trouble with this installation,
-    --       refer to the README for telescope-fzf-native for more instructions.
-    build = 'make',
-    cond = function()
-      return vim.fn.executable 'make' == 1
-    end,
+    'nvim-telescope/telescope.nvim', 
+    version = '0.2.1',
+    dependencies = {
+        'nvim-lua/plenary.nvim',
+        -- Fuzzy Finder Algorithm which requires local dependencies to be built.
+        { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+    }
   },
 
   -- Highlight, edit, and navigate code
@@ -174,8 +165,14 @@ require('lazy').setup({
   -- rust-tools for type hints, debug config, and lsp config
   {
     'mrcjkb/rustaceanvim',
-    version = '^4', -- Recommended
+    version = '^4',
     ft = { 'rust' },
+  },
+
+  -- Spell checking diagnostic source
+  {
+    'poljar/typos.nvim',
+    opts = {}
   },
 
   -- other plugins, see lua/plugins

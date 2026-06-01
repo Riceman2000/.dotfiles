@@ -1,4 +1,4 @@
-vim.lsp.config.pyright = {
+local lsp_conf = {
   cmd = { "pyright-langserver", "--stdio" },
   filetypes = { "python" },
   root_markers = {
@@ -27,24 +27,6 @@ vim.lsp.config.pyright = {
     }
   }
 }
-
--- Manim render keybind
-vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if client and client.config.filetypes and vim.tbl_contains(client.config.filetypes, "python") then
-      -- Defer the manim check slightly to allow buffer to load
-      vim.defer_fn(function()
-        if has_manim_dependency() then
-          vim.keymap.set('n', "<leader>mm", render_scene, {
-            desc = "Manim: render scene",
-            buffer = args.buf
-          })
-        end
-      end, 100)
-    end
-  end,
-})
 
 -- Check if manim is imported in current buffer or project
 function has_manim_dependency()
@@ -131,3 +113,23 @@ function render_scene()
 
   require("toggleterm.terminal").Terminal:new({ cmd = cmd }):toggle()
 end
+
+-- Manim render keybind
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client and client.config.filetypes and vim.tbl_contains(client.config.filetypes, "python") then
+      -- Defer the manim check slightly to allow buffer to load
+      vim.defer_fn(function()
+        if has_manim_dependency() then
+          vim.keymap.set('n', "<leader>mm", render_scene, {
+            desc = "Manim: render scene",
+            buffer = args.buf
+          })
+        end
+      end, 100)
+    end
+  end,
+})
+
+return lsp_conf

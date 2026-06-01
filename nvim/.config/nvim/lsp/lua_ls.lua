@@ -1,4 +1,4 @@
-vim.lsp.config.lua_ls = {
+return {
   cmd = { "lua-language-server", "--stdio" },
   filetypes = { "lua" },
   root_markers = {

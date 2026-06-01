@@ -1,4 +1,4 @@
-vim.lsp.config.ruff = {
+return {
   cmd = { "ruff", "server" },
   filetypes = { "python" },
   -- Pyright handles most of the actual LSP duty

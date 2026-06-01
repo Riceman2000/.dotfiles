@@ -1,4 +1,4 @@
-vim.lsp.config.gopls = {
+return {
   cmd = { "gopls", "serve" },
   filetypes = { "go" },
   root_markers = {

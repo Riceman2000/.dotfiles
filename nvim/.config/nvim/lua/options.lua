@@ -10,6 +10,9 @@ vim.wo.relativenumber = true
 -- Enable mouse mode only for visual mode
 vim.o.mouse = 'v'
 
+-- ALways use dark mode, do not ask the terminal which one
+vim.o.background = "dark"
+
 -- Enable break indent
 vim.o.breakindent = true
 
