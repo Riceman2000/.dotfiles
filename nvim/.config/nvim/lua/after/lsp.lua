@@ -62,6 +62,7 @@ vim.lsp.enable({
   "fish_lsp",
   "gopls",
   "lua_ls",
+  "tinymist",
   "pyright", -- Python analysis
   "ruff"     -- Python formatting
 })
