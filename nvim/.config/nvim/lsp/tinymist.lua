@@ -1,4 +1,4 @@
-vim.lsp.config.tinymist = {
+return {
   cmd = { "tinymist", "lsp" },
   filetypes = { "typst" },
   root_markers = {
