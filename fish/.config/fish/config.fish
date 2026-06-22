@@ -19,6 +19,7 @@ if status is-interactive
     fish_add_path $HOME/.local/share/bob/nvim-bin
     fish_add_path $HOME/.local/bin
     fish_add_path $HOME/.pyenv/bin
+    fish_add_path $HOME/go/bin
 
     # Fix some SSH sessions with older OSes that dont support ghostty
     export TERM=xterm-256color
