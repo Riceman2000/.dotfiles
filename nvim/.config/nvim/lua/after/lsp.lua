@@ -4,8 +4,14 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local bufnr = args.buf
     local client = vim.lsp.get_client_by_id(args.data.client_id)
 
+    -- Don't do anything else if we don't have an LSP client
+    if client == nil then
+      print("No LSP attached.")
+      return
+    end
+
     -- Enable inlay hints on attach if LSP supports
-    if client.supports_method("textDocument/inlayHint") then
+    if vim.lsp.client.supports_method(client, "textDocument/inlayHint") then
       vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
     end
 
