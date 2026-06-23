@@ -145,23 +145,25 @@ require('lazy').setup({
 
   -- Fuzzy Finder (files, lsp, etc)
   {
-    'nvim-telescope/telescope.nvim', 
+    'nvim-telescope/telescope.nvim',
     version = '0.2.1',
     dependencies = {
-        'nvim-lua/plenary.nvim',
-        -- Fuzzy Finder Algorithm which requires local dependencies to be built.
-        { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+      'nvim-lua/plenary.nvim',
+      -- Fuzzy Finder Algorithm which requires local dependencies to be built.
+      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
     }
   },
 
   -- Highlight, edit, and navigate code
   {
     'nvim-treesitter/nvim-treesitter',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
-    },
+    branch = 'main',
     build = ':TSUpdate',
   },
+
+  -- Allow selecting text regions based on treesitter info
+  -- TODO: This is broken since nvim-treesitter is no longer getting updates
+  -- 'nvim-treesitter/nvim-treesitter-textobjects',
 
   -- Hold context of current location at the top of the screen
   'nvim-treesitter/nvim-treesitter-context',
