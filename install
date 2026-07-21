@@ -1,19 +1,19 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-pushd ~/.dotfiles
+pushd ~/.dotfiles || exit
 for item in *; do
-    if [ -d $item ]; then
-        echo "Stowing directory --> " $item
-        stow -D $item
-        stow $item
+    if [ -d "$item" ]; then
+        echo "Stowing directory --> " "$item"
+        stow -D "$item"
+        stow "$item"
     else
-        echo "Ignoring file --> " $item
+        echo "Ignoring file --> " "$item"
     fi
 done
-popd
+popd || exit
 
 echo "Dotfiles deployed. Do you want to restart your shell to see changes? (y/n)"
-read confirm
+read -r confirm
 if [ "$confirm" = "y" ]; then
     echo "Restarting..."
     exec ${SHELL}
