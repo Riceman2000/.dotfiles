@@ -1,4 +1,3 @@
-
 if status is-interactive
     # Commands to run in interactive sessions can go here
     if test -d /opt/homebrew
@@ -37,14 +36,19 @@ if type -q pyenv
     pyenv init - fish | source
 end
 
+# If .fish-env is present, source it
+if test -f "$HOME/.fish-env"
+    source "$HOME/.fish-env"
+end
+
 # If espup is installed, source setup file
 if test -f "$HOME/export-esp.sh"
-    . "$HOME/export-esp.sh"
+    source "$HOME/export-esp.sh"
 end
 
 # If cargo is installed, source setup file
 if test -f "$HOME/.cargo/env.fish"
-    . "$HOME/.cargo/env.fish"
+    source "$HOME/.cargo/env.fish"
 end
 
 # Overrides the default MOTD
