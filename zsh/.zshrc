@@ -18,6 +18,10 @@ alias gs="git status"
 # General
 alias c="clear"
 
+# -=-=-=-=-=-=-=-=-=-=-=-=-=- env vars -=-=-=-=-=-=-=-=-=-=-=-=-=-
+export PATH="$PATH:$HOME/.lmstudio/bin"
+
+
 # -=-=-=-=-=-=-=-=-=-=-=-=-=- skim (fuzzy finder) -=-=-=-=-=-=-=-=-=-=-=-=-=-
 export SKIM_DEFAULT_COMMAND="fd --type file --hidden --follow --exclude .git --color=always"
 export SKIM_DEFAULT_OPTIONS="--ansi"

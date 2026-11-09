@@ -41,6 +41,9 @@ if test -f "$HOME/.fish-env"
     source "$HOME/.fish-env"
 end
 
+# Misc PATH additions
+fish_add_path $HOME/.lmstudio/bin
+
 # If espup is installed, source setup file
 if test -f "$HOME/export-esp.sh"
     source "$HOME/export-esp.sh"
