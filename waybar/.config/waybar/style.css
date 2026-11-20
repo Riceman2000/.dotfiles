@@ -1,0 +1,86 @@
+/* Dark bar in Adwaita colours, Paper Mono text (Nerd Font fallback for icons). */
+
+* {
+    font-family: "Paper Mono", "FiraCode Nerd Font Propo", monospace;
+    font-size: 14px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: rgba(30, 30, 30, 0.85);
+    color: #ffffff;
+}
+
+tooltip {
+    background: #2e2e32;
+    border: 1px solid #454545;
+    border-radius: 8px;
+}
+
+#workspaces button,
+#clock,
+#mpris,
+#tray,
+#idle_inhibitor,
+#pulseaudio,
+#network,
+#custom-notification,
+#custom-power {
+    padding: 0 10px;
+    margin: 4px 0;
+    border-radius: 999px;
+    background: transparent;
+    color: #ffffff;
+}
+
+#workspaces {
+    margin-left: 6px;
+}
+
+#workspaces button {
+    padding: 0 8px;
+    color: #9a9996;
+}
+
+#workspaces button.active {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+}
+
+#workspaces button.urgent {
+    background: #c01c28;
+    color: #ffffff;
+}
+
+#clock {
+    font-weight: bold;
+}
+
+#workspaces button:hover,
+#clock:hover,
+#idle_inhibitor:hover,
+#pulseaudio:hover,
+#network:hover,
+#custom-notification:hover,
+#custom-power:hover {
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: none;
+    text-shadow: none;
+}
+
+#idle_inhibitor.activated {
+    color: #f6d32d;
+}
+
+#pulseaudio.muted,
+#network.disconnected {
+    color: #9a9996;
+}
+
+#mpris.paused {
+    color: #9a9996;
+}
+
+#custom-power {
+    margin-right: 6px;
+}

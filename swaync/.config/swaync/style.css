@@ -1,0 +1,5 @@
+/* swaync loads its packaged theme first; these rules go on top of it. */
+
+* {
+  font-family: "Paper Mono", "FiraCode Nerd Font Propo", monospace;
+}

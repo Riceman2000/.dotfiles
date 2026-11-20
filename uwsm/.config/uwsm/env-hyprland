@@ -1,0 +1,14 @@
+# Environment for the Hyprland session only (UWSM loads this file and unsets the
+# variables again at logout, so they never leak into GNOME). Shell syntax.
+# NIXOS_OZONE_WL=1 comes from nix-config. The cursor theme is synced from GNOME's
+# gsettings by Hyprland, and Qt 6 picks Wayland on its own.
+
+# Nvidia (proprietary driver): hardware video decode and GLX under XWayland.
+# https://wiki.hypr.land/Nvidia/
+export LIBVA_DRIVER_NAME=nvidia
+export __GLX_VENDOR_LIBRARY_NAME=nvidia
+
+# ricepc has one GPU (RTX 3070, PCI 0000:2b:00.0), so Hyprland finds it on its own.
+# If it ever opens the wrong DRM device (black screen, lag), pin the card. The value
+# is ':'-separated, so use the /dev/dri/cardN that the by-path link resolves to:
+# export AQ_DRM_DEVICES="$(readlink -f /dev/dri/by-path/pci-0000:2b:00.0-card)"

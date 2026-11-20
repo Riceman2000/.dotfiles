@@ -1,0 +1,125 @@
+// Top bar, laid out like GNOME's: workspaces left, clock centre, status right.
+// Started by Hyprland (hypr/.config/hypr/autostart.lua), not as a systemd service,
+// so it never shows up in the GNOME session.
+{
+    "layer": "top",
+    "position": "top",
+    "height": 32,
+    "spacing": 4,
+
+    "modules-left": ["ext/workspaces"],
+    "modules-center": ["clock"],
+    "modules-right": [
+        "mpris",
+        "tray",
+        "idle_inhibitor",
+        "pulseaudio",
+        "network",
+        "custom/notification",
+        "custom/power"
+    ],
+
+    // Uses the ext-workspace Wayland protocol. waybar 0.15's "hyprland/workspaces"
+    // switches workspaces with hyprlang IPC commands ("dispatch workspace 2"), which a
+    // Lua Hyprland config rejects, so clicking its buttons would do nothing.
+    "ext/workspaces": {
+        "format": "{name}",
+        "on-click": "activate",
+        "sort-by-id": true,
+        "ignore-hidden": true
+    },
+
+    "clock": {
+        // GNOME style: "Fri Nov 20  14:05" (24 h)
+        "format": "{:%a %b %d  %H:%M}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode": "month",
+            "weeks-pos": "left",
+            "format": {
+                "today": "<span color='#33ccff'><b>{}</b></span>",
+                "weeks": "<span color='#808080'>{}</span>"
+            }
+        },
+        "on-click": "swaync-client -t -sw"
+    },
+
+    "mpris": {
+        "format": "{status_icon} {dynamic}",
+        "format-paused": "{status_icon} <i>{dynamic}</i>",
+        "dynamic-order": ["artist", "title"],
+        "dynamic-len": 40,
+        "status-icons": {
+            "playing": "",
+            "paused": ""
+        }
+    },
+
+    "tray": {
+        "icon-size": 16,
+        "spacing": 8
+    },
+
+    "idle_inhibitor": {
+        // Keep the screen awake (like GNOME's "Caffeine"); pauses hypridle.
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        },
+        "tooltip-format-activated": "Screen stays on",
+        "tooltip-format-deactivated": "Screen locks when idle"
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "󰝟 muted",
+        "format-icons": {
+            "headphone": "",
+            "default": ["", "", ""]
+        },
+        "scroll-step": 5,
+        "max-volume": 100,
+        "on-click": "pwvucontrol",
+        "on-click-right": "swayosd-client --output-volume mute-toggle",
+        "on-click-middle": "swayosd-client --input-volume mute-toggle"
+    },
+
+    "network": {
+        "format-ethernet": "󰈀",
+        "format-wifi": " {essid}",
+        "format-disconnected": "󰈂",
+        "tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%): {ipaddr}",
+        "tooltip-format-disconnected": "Disconnected",
+        "on-click": "nm-connection-editor"
+    },
+
+    "custom/notification": {
+        // swaync: click opens the notification centre, right-click toggles Do Not Disturb.
+        "tooltip": false,
+        "format": "{icon}",
+        "format-icons": {
+            "notification": "󱅫",
+            "none": "󰂚",
+            "dnd-notification": "󰂛",
+            "dnd-none": "󰂛",
+            "inhibited-notification": "󱅫",
+            "inhibited-none": "󰂚",
+            "dnd-inhibited-notification": "󰂛",
+            "dnd-inhibited-none": "󰂛"
+        },
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        "on-click": "swaync-client -t -sw",
+        "on-click-right": "swaync-client -d -sw",
+        "escape": true
+    },
+
+    "custom/power": {
+        "format": "⏻",
+        "tooltip": false,
+        "on-click": "~/.config/hypr/scripts/powermenu.sh"
+    }
+}
