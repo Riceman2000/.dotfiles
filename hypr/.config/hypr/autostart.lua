@@ -5,7 +5,10 @@
 local p = require("programs")
 
 hl.on("hyprland.start", function()
-    hl.exec_cmd(p.daemon("waybar"))
+    -- waybar runs as a systemd service so it comes back if it crashes (its mpris
+    -- module has crashed it before). A clean stop isn't restarted. To restart it
+    -- by hand: systemctl --user restart 'app-Hyprland-waybar@*'
+    hl.exec_cmd("uwsm app -s b -t service -p Restart=on-failure -p RestartSec=1 -- waybar")
     hl.exec_cmd(p.daemon("hyprpaper"))
     hl.exec_cmd(p.daemon("swaync"))
     hl.exec_cmd(p.daemon("hypridle"))

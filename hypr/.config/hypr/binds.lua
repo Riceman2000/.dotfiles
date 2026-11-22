@@ -4,6 +4,8 @@
 -- Differences from GNOME: Super+V toggles floating (notifications are Super+N),
 -- Super+arrows move focus (move windows with Super+Shift+arrows, maximize with
 -- Alt+F10), and Super+1..9 switch workspaces (GNOME opened dock apps).
+-- Super+H/J/K/L work like the arrows (matching the ErgoDox's HJKL arrow layer), so
+-- lock is Super+Escape, minimize Super+minus and toggle split Super+T.
 -- See https://wiki.hypr.land/Configuring/Basics/Binds/
 
 local p      = require("programs")
@@ -35,7 +37,7 @@ hl.bind(mod .. " + period", exec("rofimoji --selector fuzzel --action type copy 
 hl.bind(mod .. " + SHIFT + C", exec("hyprpicker --autocopy --format=hex"))
 hl.bind(mod .. " + SHIFT + N", exec(S .. "/nightlight.sh"))
 
-hl.bind(mod .. " + L", exec("loginctl lock-session"))
+hl.bind(mod .. " + Escape", exec("loginctl lock-session"))
 hl.bind("CTRL + ALT + Delete", exec(S .. "/powermenu.sh"))
 -- Hyprland default: log out straight away (apps are closed cleanly first).
 hl.bind(mod .. " + M", exec("hyprshutdown"))
@@ -54,13 +56,22 @@ hl.bind("ALT + F10", hl.dsp.window.fullscreen({ mode = "maximized" }))
 hl.bind(mod .. " + F", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
 
 -- Focus between windows (Hyprland default), move windows with Shift,
--- move to the other monitor with Ctrl+Shift.
-for _, dir in ipairs({ "left", "right", "up", "down" }) do
-    hl.bind(mod .. " + " .. dir, hl.dsp.focus({ direction = dir }))
-    hl.bind(mod .. " + SHIFT + " .. dir, hl.dsp.window.move({ direction = dir }))
+-- move to the other monitor with Ctrl+Shift. Arrows and vim keys both work.
+local directions = {
+    { arrow = "left",  vim = "H", monitor = "l" },
+    { arrow = "down",  vim = "J" },
+    { arrow = "up",    vim = "K" },
+    { arrow = "right", vim = "L", monitor = "r" },
+}
+for _, d in ipairs(directions) do
+    for _, key in ipairs({ d.arrow, d.vim }) do
+        hl.bind(mod .. " + " .. key, hl.dsp.focus({ direction = d.arrow }))
+        hl.bind(mod .. " + SHIFT + " .. key, hl.dsp.window.move({ direction = d.arrow }))
+        if d.monitor then
+            hl.bind(mod .. " + CTRL + SHIFT + " .. key, hl.dsp.window.move({ monitor = d.monitor }))
+        end
+    end
 end
-hl.bind(mod .. " + CTRL + SHIFT + left", hl.dsp.window.move({ monitor = "l" }))
-hl.bind(mod .. " + CTRL + SHIFT + right", hl.dsp.window.move({ monitor = "r" }))
 
 -- Alt+Tab: next window on this workspace, raised to the top.
 local function cycle(next)
@@ -72,13 +83,13 @@ end
 hl.bind("ALT + Tab", cycle(true))
 hl.bind("ALT + SHIFT + Tab", cycle(false))
 
--- Minimize (GNOME Super+H): Hyprland has none, so park the window on a hidden
--- special workspace. Super+Shift+H shows it.
-hl.bind(mod .. " + H", hl.dsp.window.move({ workspace = "special:minimized", follow = false }))
-hl.bind(mod .. " + SHIFT + H", hl.dsp.workspace.toggle_special("minimized"))
+-- Minimize: Hyprland has none, so park the window on a hidden special workspace.
+-- Super+Shift+minus shows it.
+hl.bind(mod .. " + minus", hl.dsp.window.move({ workspace = "special:minimized", follow = false }))
+hl.bind(mod .. " + SHIFT + minus", hl.dsp.workspace.toggle_special("minimized"))
 
 hl.bind(mod .. " + P", hl.dsp.window.pseudo())
-hl.bind(mod .. " + J", hl.dsp.layout("togglesplit"))
+hl.bind(mod .. " + T", hl.dsp.layout("togglesplit"))
 
 -- Super + left / right mouse drag moves / resizes.
 hl.bind(mod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
@@ -102,6 +113,14 @@ hl.bind("CTRL + ALT + left", hl.dsp.focus({ workspace = "r-1" }))
 hl.bind("CTRL + ALT + right", hl.dsp.focus({ workspace = "r+1" }))
 hl.bind(mod .. " + SHIFT + Page_Up", hl.dsp.window.move({ workspace = "r-1" }))
 hl.bind(mod .. " + SHIFT + Page_Down", hl.dsp.window.move({ workspace = "r+1" }))
+
+-- Super+Tab: back to the workspace you were on before (press again to return).
+hl.bind(mod .. " + Tab", hl.dsp.focus({ workspace = "previous" }))
+
+-- Move the current workspace, with its windows, to the left / right monitor.
+-- Until it closes or Hyprland restarts; then its monitor from rules.lua (if any) applies again.
+hl.bind(mod .. " + ALT + H", hl.dsp.workspace.move({ monitor = "l" }))
+hl.bind(mod .. " + ALT + L", hl.dsp.workspace.move({ monitor = "r" }))
 
 hl.bind(mod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
 hl.bind(mod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }))

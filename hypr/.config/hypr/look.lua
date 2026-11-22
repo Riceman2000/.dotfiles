@@ -1,10 +1,11 @@
--- Layout and decoration. Animations use Hyprland's built-in defaults.
+-- Layout, decoration and animation speed.
 -- See https://wiki.hypr.land/Configuring/Basics/Variables/
 
 hl.config({
     general = {
-        gaps_in          = 5,
-        gaps_out         = 10,
+        -- gaps_in is added on each side, so 1 gives 2 px between windows.
+        gaps_in          = 1,
+        gaps_out         = 2,
         border_size      = 2,
 
         col              = {
@@ -61,3 +62,8 @@ hl.config({
         focus_on_activate       = true,
     },
 })
+
+-- Hyprland's built-in animations, 5x faster. Speed is in tenths of a second and
+-- every animation inherits "global" (default 8 = 0.8 s), so 1.6 = 0.16 s.
+-- Raise it to slow them down; `enabled = false` turns them all off.
+hl.animation({ leaf = "global", enabled = true, speed = 1.6, bezier = "default" })

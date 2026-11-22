@@ -25,7 +25,12 @@
     "ext/workspaces": {
         "format": "{name}",
         "on-click": "activate",
-        "sort-by-id": true,
+        // Sort by workspace number (1, 2, 3 ... 10). Hyprland sends that number as
+        // the workspace's coordinate; it sends no ID, so "sort-by-id" falls back to
+        // the order waybar first saw each workspace. "sort-by-name" is on by default
+        // and checked first, and would sort "10" before "2", so turn it off.
+        "sort-by-name": false,
+        "sort-by-coordinates": true,
         "ignore-hidden": true
     },
 
@@ -50,8 +55,8 @@
         "dynamic-order": ["artist", "title"],
         "dynamic-len": 40,
         "status-icons": {
-            "playing": "",
-            "paused": ""
+            "playing": "󰐊",
+            "paused": "󰏤"
         }
     },
 
@@ -64,8 +69,8 @@
         // Keep the screen awake (like GNOME's "Caffeine"); pauses hypridle.
         "format": "{icon}",
         "format-icons": {
-            "activated": "",
-            "deactivated": ""
+            "activated": "󰅶",
+            "deactivated": "󰛊"
         },
         "tooltip-format-activated": "Screen stays on",
         "tooltip-format-deactivated": "Screen locks when idle"
@@ -75,8 +80,8 @@
         "format": "{icon} {volume}%",
         "format-muted": "󰝟 muted",
         "format-icons": {
-            "headphone": "",
-            "default": ["", "", ""]
+            "headphone": "󰋋",
+            "default": ["󰕿", "󰖀", "󰕾"]
         },
         "scroll-step": 5,
         "max-volume": 100,
@@ -87,7 +92,7 @@
 
     "network": {
         "format-ethernet": "󰈀",
-        "format-wifi": " {essid}",
+        "format-wifi": "󰖩 {essid}",
         "format-disconnected": "󰈂",
         "tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}",
         "tooltip-format-wifi": "{essid} ({signalStrength}%): {ipaddr}",

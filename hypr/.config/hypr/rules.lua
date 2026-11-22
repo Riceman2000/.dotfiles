@@ -35,6 +35,37 @@ hl.window_rule({
     center = true,
 })
 
+-- Apps with their own workspace. The workspace is named "<number> - <name>" so the
+-- bar shows which Super+number gets you there. Opening the app takes you to it.
+-- Add a line per app; find the class with `hyprctl clients`.
+-- monitor (optional): "left" / "right" (from monitors.lua) or a connector like
+-- "DP-1". Without it the workspace opens on whichever screen has focus.
+local monitors = require("monitors")
+
+local appWorkspaces = {
+    { id = 3, name = "Term",    class = "^com\\.mitchellh\\.ghostty$", monitor = "right" },
+    { id = 4, name = "Discord", class = "^discord$", monitor = "right" },
+    { id = 6, name = "Obsidian", class = "^(obsidian|md\\.obsidian\\.Obsidian)$", monitor = "left" },
+    { id = 7, name = "Steam",   class = "^steam$",   monitor = "right" },
+    { id = 8, name = "Spotify", class = "^spotify$", monitor = "left" },
+
+    -- Big rule here to cover most games
+    { id = 9, name = "Game",    class = "^steam_app_\\d+$", monitor = "left" },
+}
+
+for _, ws in ipairs(appWorkspaces) do
+    hl.workspace_rule({
+        workspace    = tostring(ws.id),
+        default_name = ws.id .. " - " .. ws.name,
+        monitor      = ws.monitor and (monitors[ws.monitor] or ws.monitor) or nil,
+    })
+    hl.window_rule({
+        name      = "workspace-" .. ws.name:lower(),
+        match     = { class = ws.class },
+        workspace = tostring(ws.id),
+    })
+end
+
 -- Don't lock or blank the screen while any window is fullscreen (games, videos).
 hl.window_rule({
     name         = "idle-inhibit-fullscreen",

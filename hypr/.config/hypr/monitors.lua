@@ -5,21 +5,32 @@
 -- If a cable moves to another port the connector name changes (monitors.xml once
 -- had the VG24VQ1B on DP-3). Run `hyprctl monitors` and update the names here.
 -- An output not listed here still comes up at its preferred mode, placed automatically.
+--
+-- This file returns the screen names, so other files (rules.lua) can say "left" or
+-- "right" instead of repeating connector names.
+
+local M = {
+    left  = "DP-1",
+    right = "DP-2",
+}
 
 hl.monitor({
-    output   = "DP-1",
+    output   = M.left,
     mode     = "1920x1080@143.85",
     position = "0x0",
     scale    = 1,
 })
 
 hl.monitor({
-    output   = "DP-2",
+    output   = M.right,
     mode     = "1920x1080@143.86",
     position = "1920x0",
     scale    = 1,
 })
 
--- Start on workspace 1 on the primary and 2 on the right-hand screen.
-hl.workspace_rule({ workspace = "1", monitor = "DP-1", default = true })
-hl.workspace_rule({ workspace = "2", monitor = "DP-2", default = true })
+-- Each screen starts on its own workspace. Other workspaces open on whichever screen
+-- has focus, unless rules.lua's appWorkspaces gives them a monitor.
+hl.workspace_rule({ workspace = "1", monitor = M.left, default = true })
+hl.workspace_rule({ workspace = "2", monitor = M.right, default = true })
+
+return M
